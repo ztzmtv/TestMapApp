@@ -12,6 +12,7 @@ import com.example.mapapp.entity.Entity
 import com.example.mapapp.repository.Repository
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val rootLayout = binding.root
+
         val scrollView = generateScrollView()
         val linearLayoutScrollContainer = generateLinearLayoutContainer()
         val list = repository.getTemplateList()
