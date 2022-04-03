@@ -12,7 +12,6 @@ import com.example.mapapp.entity.Entity
 import com.example.mapapp.repository.Repository
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
             val image = panelItemVisible.getChildAt(CHILD_ID_IMAGE) as ImageView
             val text = panelItemVisible.getChildAt(CHILD_ID_TEXT) as TextView
+            val imageEye = panelItemVisible.getChildAt(CHILD_ID_EYE) as ImageView
             val popupArrow = panelItemVisible.getChildAt(CHILD_ID_ARROW) as ImageView
             val switch = panelItemVisible.getChildAt(CHILD_ID_SWITCH) as SwitchMaterial
 
@@ -48,13 +48,15 @@ class MainActivity : AppCompatActivity() {
 
             popupArrow.setOnClickListener {
                 setPanelVisibility(panelItemInvisible, popupArrow)
+
             }
             panelItemVisible.setOnLongClickListener {
-                setPanelItemsTransparency(panelItemVisible, panelItemInvisible)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, imageEye)
+
                 true
             }
             panelItemInvisible.setOnLongClickListener {
-                setPanelItemsTransparency(panelItemVisible, panelItemInvisible)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, imageEye)
                 true
             }
         }
@@ -62,21 +64,24 @@ class MainActivity : AppCompatActivity() {
         rootLayout.addView(scrollView)
     }
 
-    private fun setPanelItemsTransparency(
+    private fun setPanelItemsOpacity(
         panelItemVisible: ConstraintLayout,
-        panelItemInvisible: ConstraintLayout
+        panelItemInvisible: ConstraintLayout,
+        imageEye: ImageView
     ) {
-        if (panelItemVisible.getChildAt(CHILD_ID_IMAGE).alpha != ALPHA_TRANSPARENCY_HALF) {
-            setPanelItemTransparency(panelItemVisible, ALPHA_TRANSPARENCY_HALF)
-            setPanelItemTransparency(panelItemInvisible, ALPHA_TRANSPARENCY_HALF)
+        if (panelItemVisible.getChildAt(CHILD_ID_IMAGE).alpha != OPACITY_HALF) {
+            setPanelItemOpacity(panelItemVisible, OPACITY_HALF)
+            setPanelItemOpacity(panelItemInvisible, OPACITY_HALF)
+            imageEye.visibility = View.VISIBLE
         } else {
-            setPanelItemTransparency(panelItemVisible, ALPHA_TRANSPARENCY_FULL)
-            setPanelItemTransparency(panelItemInvisible, ALPHA_TRANSPARENCY_FULL)
+            setPanelItemOpacity(panelItemVisible, OPACITY_FULL)
+            setPanelItemOpacity(panelItemInvisible, OPACITY_FULL)
+            imageEye.visibility = View.INVISIBLE
         }
     }
 
-    private fun setPanelItemTransparency(panelItem: ConstraintLayout, transparencyValue: Float) {
-        for (i in 0 until panelItem.childCount) panelItem.getChildAt(i).alpha = transparencyValue
+    private fun setPanelItemOpacity(panelItem: ConstraintLayout, opacityValue: Float) {
+        for (i in 0 until panelItem.childCount) panelItem.getChildAt(i).alpha = opacityValue
     }
 
     private fun bindItemsToViews(
@@ -94,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPanelVisibility(
         panelItemInvisible: ConstraintLayout,
-        popupArrow: ImageView
+        popupArrow: ImageView,
     ) {
         if (panelItemInvisible.visibility == View.GONE) {
             panelItemInvisible.visibility = View.VISIBLE
@@ -149,9 +154,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val CHILD_ID_IMAGE = 0
         private const val CHILD_ID_TEXT = 1
-        private const val CHILD_ID_ARROW = 2
-        private const val CHILD_ID_SWITCH = 3
-        private const val ALPHA_TRANSPARENCY_FULL = 1.0f
-        private const val ALPHA_TRANSPARENCY_HALF = 0.5f
+        private const val CHILD_ID_EYE = 2
+        private const val CHILD_ID_ARROW = 3
+        private const val CHILD_ID_SWITCH = 4
+        private const val OPACITY_FULL = 1.0f
+        private const val OPACITY_HALF = 0.5f
     }
 }
