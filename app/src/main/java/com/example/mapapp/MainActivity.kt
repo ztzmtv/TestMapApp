@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             popupArrow.setOnClickListener {
                 setPanelVisibility(panelItemInvisible, popupArrow)
             }
-
             panelItemVisible.setOnLongClickListener {
                 setPanelItemsTransparency(panelItemVisible, panelItemInvisible)
                 true
@@ -57,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-
         scrollView.addView(linearLayoutScrollContainer)
         rootLayout.addView(scrollView)
     }
@@ -66,19 +64,18 @@ class MainActivity : AppCompatActivity() {
         panelItemVisible: ConstraintLayout,
         panelItemInvisible: ConstraintLayout
     ) {
-        if (panelItemVisible.getChildAt(0).alpha != ALPHA_TRANSPARENCY_HALF) {
-            for (i in 0 until panelItemVisible.childCount)
-                panelItemVisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_HALF
-            for (i in 0 until panelItemInvisible.childCount)
-                panelItemInvisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_HALF
+        if (panelItemVisible.getChildAt(CHILD_ID_IMAGE).alpha != ALPHA_TRANSPARENCY_HALF) {
+            setPanelItemTransparency(panelItemVisible, ALPHA_TRANSPARENCY_HALF)
+            setPanelItemTransparency(panelItemInvisible, ALPHA_TRANSPARENCY_HALF)
         } else {
-            for (i in 0 until panelItemVisible.childCount)
-                panelItemVisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_FULL
-            for (i in 0 until panelItemInvisible.childCount)
-                panelItemInvisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_FULL
+            setPanelItemTransparency(panelItemVisible, ALPHA_TRANSPARENCY_FULL)
+            setPanelItemTransparency(panelItemInvisible, ALPHA_TRANSPARENCY_FULL)
         }
     }
 
+    private fun setPanelItemTransparency(panelItem: ConstraintLayout, transparencyValue: Float) {
+        for (i in 0 until panelItem.childCount) panelItem.getChildAt(i).alpha = transparencyValue
+    }
 
     private fun bindItemsToViews(
         image: ImageView,
@@ -92,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         switch.isChecked = item.isChecked
         panelItemInvisible.visibility = View.GONE
     }
-
 
     private fun setPanelVisibility(
         panelItemInvisible: ConstraintLayout,
