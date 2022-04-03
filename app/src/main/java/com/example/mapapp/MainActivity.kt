@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         val rootLayout = binding.root
         val scrollView = generateScrollView()
         val linearLayoutScrollContainer = generateLinearLayoutContainer()
-
         val list = repository.getTemplateList()
 
         for (item in list) {
@@ -42,12 +41,44 @@ class MainActivity : AppCompatActivity() {
             val text = panelItemVisible.getChildAt(CHILD_ID_TEXT) as TextView
             val popupArrow = panelItemVisible.getChildAt(CHILD_ID_ARROW) as ImageView
             val switch = panelItemVisible.getChildAt(CHILD_ID_SWITCH) as SwitchMaterial
+
             bindItemsToViews(image, item, text, switch, panelItemInvisible)
-            setPopupArrowClickListener(popupArrow, panelItemInvisible)
+
+            popupArrow.setOnClickListener {
+                setPanelVisibility(panelItemInvisible, popupArrow)
+            }
+
+            panelItemVisible.setOnLongClickListener {
+                setPanelItemsTransparency(panelItemVisible, panelItemInvisible)
+                true
+            }
+            panelItemInvisible.setOnLongClickListener {
+                setPanelItemsTransparency(panelItemVisible, panelItemInvisible)
+                true
+            }
         }
+
         scrollView.addView(linearLayoutScrollContainer)
         rootLayout.addView(scrollView)
     }
+
+    private fun setPanelItemsTransparency(
+        panelItemVisible: ConstraintLayout,
+        panelItemInvisible: ConstraintLayout
+    ) {
+        if (panelItemVisible.getChildAt(0).alpha != ALPHA_TRANSPARENCY_HALF) {
+            for (i in 0 until panelItemVisible.childCount)
+                panelItemVisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_HALF
+            for (i in 0 until panelItemInvisible.childCount)
+                panelItemInvisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_HALF
+        } else {
+            for (i in 0 until panelItemVisible.childCount)
+                panelItemVisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_FULL
+            for (i in 0 until panelItemInvisible.childCount)
+                panelItemInvisible.getChildAt(i).alpha = ALPHA_TRANSPARENCY_FULL
+        }
+    }
+
 
     private fun bindItemsToViews(
         image: ImageView,
@@ -62,18 +93,17 @@ class MainActivity : AppCompatActivity() {
         panelItemInvisible.visibility = View.GONE
     }
 
-    private fun setPopupArrowClickListener(
-        popupArrow: ImageView,
-        panelItemInvisible: ConstraintLayout
+
+    private fun setPanelVisibility(
+        panelItemInvisible: ConstraintLayout,
+        popupArrow: ImageView
     ) {
-        popupArrow.setOnClickListener {
-            if (panelItemInvisible.visibility == View.GONE) {
-                panelItemInvisible.visibility = View.VISIBLE
-                popupArrow.setImageResource(R.drawable.ic_arrow_up)
-            } else {
-                panelItemInvisible.visibility = View.GONE
-                popupArrow.setImageResource(R.drawable.ic_arrow_down)
-            }
+        if (panelItemInvisible.visibility == View.GONE) {
+            panelItemInvisible.visibility = View.VISIBLE
+            popupArrow.setImageResource(R.drawable.ic_arrow_up)
+        } else {
+            panelItemInvisible.visibility = View.GONE
+            popupArrow.setImageResource(R.drawable.ic_arrow_down)
         }
     }
 
@@ -123,5 +153,7 @@ class MainActivity : AppCompatActivity() {
         private const val CHILD_ID_TEXT = 1
         private const val CHILD_ID_ARROW = 2
         private const val CHILD_ID_SWITCH = 3
+        private const val ALPHA_TRANSPARENCY_FULL = 1.0f
+        private const val ALPHA_TRANSPARENCY_HALF = 0.5f
     }
 }
