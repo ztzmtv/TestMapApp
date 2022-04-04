@@ -1,6 +1,6 @@
 package com.example.mapapp.entity
 
-data class Entity(
+data class Item(
 
     var id: Int = DEFAULT_NO_ID,
     var resId: Int? = null,

@@ -3,36 +3,47 @@ package com.example.mapapp
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.databinding.ActivityMainBinding
-import com.example.mapapp.entity.Entity
-import com.example.mapapp.repository.Repository
+import com.example.mapapp.databinding.PanelItemInvisibleBinding
+import com.example.mapapp.databinding.PanelItemVisibleBinding
+import com.example.mapapp.entity.Item
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val repository = Repository
+    private val viewModel by lazy { ViewModelProvider(this)[MapAppViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val rootLayout = binding.root
-        val scrollView = generateScrollView()
-        val linearLayoutScrollContainer = generateLinearLayoutContainer()
-        val list = repository.getTemplateList()
+        viewModel.itemsList.observe(this) {
+            dynamicallyCreateViews(it, binding.llContainer)
+        }
+    }
 
-        for (item in list) {
+    private fun dynamicallyCreateViews(
+        listItems: List<Item>,
+        linearLayoutScrollContainer: LinearLayout,
+    ) {
+        for (item in listItems) {
+            val bindingVisible = PanelItemVisibleBinding.inflate(layoutInflater)
+            val bindingInvisible = PanelItemInvisibleBinding.inflate(layoutInflater)
+
             //create ViewGroups
-            val panelItemVisible = inflatePanelItemVisible()
-            val panelItemInvisible = inflatePanelItemInvisible()
+            val panelItemVisible = bindingVisible.root
+            val panelItemInvisible = bindingInvisible.root
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
 
@@ -43,35 +54,38 @@ class MainActivity : AppCompatActivity() {
             linearLayoutScrollContainer.addView(materialCardView)
 
             //get child views
-            val itemImage = panelItemVisible.getChildAt(VISIBLE_ID_IMAGE) as ImageView
-            val itemText = panelItemVisible.getChildAt(VISIBLE_ID_TEXT) as TextView
-            val itemImageEye = panelItemVisible.getChildAt(VISIBLE_ID_EYE) as ImageView
-            val itemPopupArrow = panelItemVisible.getChildAt(VISIBLE_ID_ARROW) as ImageView
-            val itemSwitch = panelItemVisible.getChildAt(VISIBLE_ID_SWITCH) as SwitchMaterial
-            val itemInvOpacity = panelItemInvisible.getChildAt(INVISIBLE_ID_OPACITY) as TextView
-            val itemInvSynchronized =
-                panelItemInvisible.getChildAt(INVISIBLE_ID_SYNCHRONIZED) as TextView
-            val itemInvSlider = panelItemInvisible.getChildAt(INVISIBLE_ID_SLIDER) as Slider
-            bindItemsToViews(itemImage, item, itemText, itemSwitch, panelItemInvisible)
+            bindItemsToViews(
+                item,
+                bindingVisible.ivPanelItem,
+                bindingVisible.tvPanelItem,
+                bindingVisible.swPanelItem,
+                panelItemInvisible
+            )
 
             //set listeners on child views
-            itemInvSlider.addOnSliderTouchListener(
-                onSliderTouchListener(itemInvSynchronized, itemInvOpacity)
+            bindingInvisible.panelSlider.addOnSliderTouchListener(
+                onSliderTouchListener(
+                    bindingInvisible.tvSynchronizedAt,
+                    bindingInvisible.tvOpacity
+                )
             )
-            itemPopupArrow.setOnClickListener {
-                setPanelVisibility(panelItemInvisible, itemPopupArrow, itemText, itemImage)
+            bindingVisible.ivArrowPopup.setOnClickListener {
+                setPanelVisibility(
+                    panelItemInvisible,
+                    bindingVisible.ivArrowPopup,
+                    bindingVisible.tvPanelItem,
+                    bindingVisible.ivPanelItem
+                )
             }
             panelItemVisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, itemImageEye)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, bindingVisible.ivEye)
                 true
             }
             panelItemInvisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, itemImageEye)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, bindingVisible.ivEye)
                 true
             }
         }
-        scrollView.addView(linearLayoutScrollContainer)
-        rootLayout.addView(scrollView)
     }
 
     private fun onSliderTouchListener(
@@ -111,8 +125,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindItemsToViews(
+        item: Item,
         image: ImageView,
-        item: Entity,
         text: TextView,
         switch: SwitchMaterial,
         panelItemInvisible: ConstraintLayout
@@ -142,12 +156,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun inflatePanelItemInvisible() = LayoutInflater.from(this)
-        .inflate(R.layout.panel_item_invisible, null) as ConstraintLayout
-
-    private fun inflatePanelItemVisible() = LayoutInflater.from(this)
-        .inflate(R.layout.panel_item_visible, null) as ConstraintLayout
-
     private fun generateLinearLayoutContainer(): LinearLayout {
         val linearLayoutContainer = LinearLayout(this)
         val linearLayoutParams = ViewGroup.LayoutParams(
@@ -157,7 +165,6 @@ class MainActivity : AppCompatActivity() {
         return linearLayoutContainer.apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = linearLayoutParams
-            id = View.generateViewId()
         }
     }
 
@@ -169,31 +176,11 @@ class MainActivity : AppCompatActivity() {
         val materialCardView = MaterialCardView(this)
         return materialCardView.apply {
             layoutParams = cardViewLayoutParams
-            id = View.generateViewId()
         }
-    }
-
-    private fun generateScrollView(): ScrollView {
-        val scrollView = ScrollView(this)
-        val viewGroupLayoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        scrollView.layoutParams = viewGroupLayoutParams
-        return scrollView
     }
 
     companion object {
         private const val VISIBLE_ID_IMAGE = 0
-        private const val VISIBLE_ID_TEXT = 1
-        private const val VISIBLE_ID_EYE = 2
-        private const val VISIBLE_ID_ARROW = 3
-        private const val VISIBLE_ID_SWITCH = 4
-
-        private const val INVISIBLE_ID_OPACITY = 0
-        private const val INVISIBLE_ID_SYNCHRONIZED = 1
-        private const val INVISIBLE_ID_SLIDER = 2
-
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
     }

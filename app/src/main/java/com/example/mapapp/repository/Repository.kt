@@ -1,18 +1,18 @@
 package com.example.mapapp.repository
 
 import com.example.mapapp.R
-import com.example.mapapp.entity.Entity
+import com.example.mapapp.entity.Item
 
 object Repository {
 
     private var count_id = 0
 
-    fun getTemplateList(): List<Entity> {
+    fun getTemplateList(): List<Item> {
 
-        val list = mutableListOf<Entity>()
+        val list = mutableListOf<Item>()
 
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Слой делян",
@@ -20,28 +20,28 @@ object Repository {
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
@@ -49,7 +49,7 @@ object Repository {
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Слой делян",
@@ -58,28 +58,28 @@ object Repository {
         )
 
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
             )
         )
         list.add(
-            Entity(
+            Item(
                 id = count_id++,
                 resId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
