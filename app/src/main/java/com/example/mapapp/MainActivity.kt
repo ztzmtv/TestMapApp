@@ -1,6 +1,7 @@
 package com.example.mapapp
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,6 @@ import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.entity.Entity
 import com.example.mapapp.repository.Repository
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -30,58 +30,64 @@ class MainActivity : AppCompatActivity() {
         val list = repository.getTemplateList()
 
         for (item in list) {
+            //create ViewGroups
             val panelItemVisible = inflatePanelItemVisible()
             val panelItemInvisible = inflatePanelItemInvisible()
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
 
+            //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
             linearLayoutContainer.addView(panelItemInvisible)
             materialCardView.addView(linearLayoutContainer)
             linearLayoutScrollContainer.addView(materialCardView)
 
-            val image = panelItemVisible.getChildAt(VISIBLE_ID_IMAGE) as ImageView
-            val text = panelItemVisible.getChildAt(VISIBLE_ID_TEXT) as TextView
-            val imageEye = panelItemVisible.getChildAt(VISIBLE_ID_EYE) as ImageView
-            val popupArrow = panelItemVisible.getChildAt(VISIBLE_ID_ARROW) as ImageView
-            val switch = panelItemVisible.getChildAt(VISIBLE_ID_SWITCH) as SwitchMaterial
-            val tvOpacity = panelItemInvisible.getChildAt(INVISIBLE_ID_OPACITY) as TextView
-            val tvSynchronized =
+            //get child views
+            val itemImage = panelItemVisible.getChildAt(VISIBLE_ID_IMAGE) as ImageView
+            val itemText = panelItemVisible.getChildAt(VISIBLE_ID_TEXT) as TextView
+            val itemImageEye = panelItemVisible.getChildAt(VISIBLE_ID_EYE) as ImageView
+            val itemPopupArrow = panelItemVisible.getChildAt(VISIBLE_ID_ARROW) as ImageView
+            val itemSwitch = panelItemVisible.getChildAt(VISIBLE_ID_SWITCH) as SwitchMaterial
+            val itemInvOpacity = panelItemInvisible.getChildAt(INVISIBLE_ID_OPACITY) as TextView
+            val itemInvSynchronized =
                 panelItemInvisible.getChildAt(INVISIBLE_ID_SYNCHRONIZED) as TextView
-            val slider = panelItemInvisible.getChildAt(INVISIBLE_ID_SLIDER) as Slider
+            val itemInvSlider = panelItemInvisible.getChildAt(INVISIBLE_ID_SLIDER) as Slider
+            bindItemsToViews(itemImage, item, itemText, itemSwitch, panelItemInvisible)
 
-
-            slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-                @SuppressLint("RestrictedApi")
-                override fun onStartTrackingTouch(slider: Slider) {
-                }
-
-                @SuppressLint("RestrictedApi")
-                override fun onStopTrackingTouch(slider: Slider) {
-                    tvSynchronized.text = "TODO"
-                    tvOpacity.text = slider.value.toString()
-                    //TODO()
-                }
-
-            })
-
-            bindItemsToViews(image, item, text, switch, panelItemInvisible)
-
-            popupArrow.setOnClickListener {
-                setPanelVisibility(panelItemInvisible, popupArrow)
-
+            //set listeners on child views
+            itemInvSlider.addOnSliderTouchListener(
+                onSliderTouchListener(itemInvSynchronized, itemInvOpacity)
+            )
+            itemPopupArrow.setOnClickListener {
+                setPanelVisibility(panelItemInvisible, itemPopupArrow, itemText, itemImage)
             }
             panelItemVisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, imageEye)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, itemImageEye)
                 true
             }
             panelItemInvisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, imageEye)
+                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, itemImageEye)
                 true
             }
         }
         scrollView.addView(linearLayoutScrollContainer)
         rootLayout.addView(scrollView)
+    }
+
+    private fun onSliderTouchListener(
+        tvSynchronized: TextView,
+        tvOpacity: TextView
+    ) = object : Slider.OnSliderTouchListener {
+        @SuppressLint("RestrictedApi")
+        override fun onStartTrackingTouch(slider: Slider) {
+        }
+
+        @SuppressLint("RestrictedApi")
+        override fun onStopTrackingTouch(slider: Slider) {
+            tvSynchronized.text = "TODO"
+            tvOpacity.text = slider.value.toString()
+            //TODO()
+        }
     }
 
     private fun setPanelItemsOpacity(
@@ -120,13 +126,19 @@ class MainActivity : AppCompatActivity() {
     private fun setPanelVisibility(
         panelItemInvisible: ConstraintLayout,
         popupArrow: ImageView,
+        text: TextView,
+        image: ImageView
     ) {
+        val currentTextColor = text.currentTextColor
         if (panelItemInvisible.visibility == View.GONE) {
             panelItemInvisible.visibility = View.VISIBLE
             popupArrow.setImageResource(R.drawable.ic_arrow_up)
+            text.currentTextColor
+            text.setTextColor(Color.GREEN) //TODO( изменить на нормальные цвета )
         } else {
             panelItemInvisible.visibility = View.GONE
             popupArrow.setImageResource(R.drawable.ic_arrow_down)
+            text.setTextColor(currentTextColor)
         }
     }
 
