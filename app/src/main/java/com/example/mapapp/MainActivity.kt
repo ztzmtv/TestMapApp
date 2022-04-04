@@ -1,5 +1,6 @@
 package com.example.mapapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.entity.Entity
 import com.example.mapapp.repository.Repository
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -38,11 +40,30 @@ class MainActivity : AppCompatActivity() {
             materialCardView.addView(linearLayoutContainer)
             linearLayoutScrollContainer.addView(materialCardView)
 
-            val image = panelItemVisible.getChildAt(CHILD_ID_IMAGE) as ImageView
-            val text = panelItemVisible.getChildAt(CHILD_ID_TEXT) as TextView
-            val imageEye = panelItemVisible.getChildAt(CHILD_ID_EYE) as ImageView
-            val popupArrow = panelItemVisible.getChildAt(CHILD_ID_ARROW) as ImageView
-            val switch = panelItemVisible.getChildAt(CHILD_ID_SWITCH) as SwitchMaterial
+            val image = panelItemVisible.getChildAt(VISIBLE_ID_IMAGE) as ImageView
+            val text = panelItemVisible.getChildAt(VISIBLE_ID_TEXT) as TextView
+            val imageEye = panelItemVisible.getChildAt(VISIBLE_ID_EYE) as ImageView
+            val popupArrow = panelItemVisible.getChildAt(VISIBLE_ID_ARROW) as ImageView
+            val switch = panelItemVisible.getChildAt(VISIBLE_ID_SWITCH) as SwitchMaterial
+            val tvOpacity = panelItemInvisible.getChildAt(INVISIBLE_ID_OPACITY) as TextView
+            val tvSynchronized =
+                panelItemInvisible.getChildAt(INVISIBLE_ID_SYNCHRONIZED) as TextView
+            val slider = panelItemInvisible.getChildAt(INVISIBLE_ID_SLIDER) as Slider
+
+
+            slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+                @SuppressLint("RestrictedApi")
+                override fun onStartTrackingTouch(slider: Slider) {
+                }
+
+                @SuppressLint("RestrictedApi")
+                override fun onStopTrackingTouch(slider: Slider) {
+                    tvSynchronized.text = "TODO"
+                    tvOpacity.text = slider.value.toString()
+                    //TODO()
+                }
+
+            })
 
             bindItemsToViews(image, item, text, switch, panelItemInvisible)
 
