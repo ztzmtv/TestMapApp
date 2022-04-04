@@ -11,6 +11,7 @@ import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.entity.Entity
 import com.example.mapapp.repository.Repository
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val rootLayout = binding.root
-
         val scrollView = generateScrollView()
         val linearLayoutScrollContainer = generateLinearLayoutContainer()
         val list = repository.getTemplateList()
@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             }
             panelItemVisible.setOnLongClickListener {
                 setPanelItemsOpacity(panelItemVisible, panelItemInvisible, imageEye)
-
                 true
             }
             panelItemInvisible.setOnLongClickListener {
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         panelItemInvisible: ConstraintLayout,
         imageEye: ImageView
     ) {
-        if (panelItemVisible.getChildAt(CHILD_ID_IMAGE).alpha != OPACITY_HALF) {
+        if (panelItemVisible.getChildAt(VISIBLE_ID_IMAGE).alpha != OPACITY_HALF) {
             setPanelItemOpacity(panelItemVisible, OPACITY_HALF)
             setPanelItemOpacity(panelItemInvisible, OPACITY_HALF)
             imageEye.visibility = View.VISIBLE
@@ -152,11 +151,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val CHILD_ID_IMAGE = 0
-        private const val CHILD_ID_TEXT = 1
-        private const val CHILD_ID_EYE = 2
-        private const val CHILD_ID_ARROW = 3
-        private const val CHILD_ID_SWITCH = 4
+        private const val VISIBLE_ID_IMAGE = 0
+        private const val VISIBLE_ID_TEXT = 1
+        private const val VISIBLE_ID_EYE = 2
+        private const val VISIBLE_ID_ARROW = 3
+        private const val VISIBLE_ID_SWITCH = 4
+
+        private const val INVISIBLE_ID_OPACITY = 0
+        private const val INVISIBLE_ID_SYNCHRONIZED = 1
+        private const val INVISIBLE_ID_SLIDER = 2
+
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
     }
