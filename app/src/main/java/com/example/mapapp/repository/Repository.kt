@@ -6,11 +6,18 @@ import com.example.mapapp.entity.Item
 object Repository {
 
     private var count_id = 0
+    private val list = mutableListOf<Item>()
+
+    fun addItem(item: Item) {
+        list.add(item)
+    }
+
+    fun getList(): List<Item> {
+        return list
+    }
+
 
     fun getTemplateList(): List<Item> {
-
-        val list = mutableListOf<Item>()
-
         list.add(
             Item(
                 id = count_id++,

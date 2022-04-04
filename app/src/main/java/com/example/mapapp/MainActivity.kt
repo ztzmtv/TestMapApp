@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         linearLayoutScrollContainer: LinearLayout,
     ) {
         for (item in listItems) {
+            //binding
             val bindingVisible = PanelItemVisibleBinding.inflate(layoutInflater)
             val bindingInvisible = PanelItemInvisibleBinding.inflate(layoutInflater)
 
@@ -63,12 +64,6 @@ class MainActivity : AppCompatActivity() {
             )
 
             //set listeners on child views
-            bindingInvisible.panelSlider.addOnSliderTouchListener(
-                onSliderTouchListener(
-                    bindingInvisible.tvSynchronizedAt,
-                    bindingInvisible.tvOpacity
-                )
-            )
             bindingVisible.ivArrowPopup.setOnClickListener {
                 setPanelVisibility(
                     panelItemInvisible,
@@ -77,28 +72,40 @@ class MainActivity : AppCompatActivity() {
                     bindingVisible.ivPanelItem
                 )
             }
-            panelItemVisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, bindingVisible.ivEye)
-                true
+
+            bindingVisible.swPanelItem.setOnCheckedChangeListener { _, switchValue ->
+                viewModel.visibilityChange(item, switchValue)
+                setPanelItemsOpacity(
+                    panelItemVisible,
+                    panelItemInvisible,
+                    bindingVisible.ivEye,
+                    switchValue
+                )
             }
-            panelItemInvisible.setOnLongClickListener {
-                setPanelItemsOpacity(panelItemVisible, panelItemInvisible, bindingVisible.ivEye)
-                true
-            }
+
+            bindingInvisible.panelSlider.addOnSliderTouchListener(
+                onSliderTouchListener(
+                    item,
+                    bindingInvisible.tvSynchronizedAt,
+                    bindingInvisible.tvOpacity
+                )
+            )
         }
     }
 
     private fun onSliderTouchListener(
+        item: Item,
         tvSynchronized: TextView,
         tvOpacity: TextView
     ) = object : Slider.OnSliderTouchListener {
-        @SuppressLint("RestrictedApi")
+        @SuppressLint("RestrictedApi") //исправят в новой версии Material components
         override fun onStartTrackingTouch(slider: Slider) {
         }
 
         @SuppressLint("RestrictedApi")
         override fun onStopTrackingTouch(slider: Slider) {
-            tvSynchronized.text = "TODO"
+            viewModel.opacityChange(item, slider.value.toInt())
+            tvSynchronized.text = "TODO"//TODO дата синхронизации
             tvOpacity.text = slider.value.toString()
             //TODO()
         }
@@ -107,34 +114,40 @@ class MainActivity : AppCompatActivity() {
     private fun setPanelItemsOpacity(
         panelItemVisible: ConstraintLayout,
         panelItemInvisible: ConstraintLayout,
-        imageEye: ImageView
+        imageEye: ImageView,
+        value: Boolean
     ) {
-        if (panelItemVisible.getChildAt(VISIBLE_ID_IMAGE).alpha != OPACITY_HALF) {
-            setPanelItemOpacity(panelItemVisible, OPACITY_HALF)
-            setPanelItemOpacity(panelItemInvisible, OPACITY_HALF)
+        if (!value) {
+            setPanelsOpacity(panelItemVisible, panelItemInvisible, OPACITY_HALF)
             imageEye.visibility = View.VISIBLE
         } else {
-            setPanelItemOpacity(panelItemVisible, OPACITY_FULL)
-            setPanelItemOpacity(panelItemInvisible, OPACITY_FULL)
+            setPanelsOpacity(panelItemVisible, panelItemInvisible, OPACITY_FULL)
             imageEye.visibility = View.INVISIBLE
         }
     }
 
-    private fun setPanelItemOpacity(panelItem: ConstraintLayout, opacityValue: Float) {
-        for (i in 0 until panelItem.childCount) panelItem.getChildAt(i).alpha = opacityValue
+    private fun setPanelsOpacity(
+        panelItemVisible: ConstraintLayout,
+        panelItemInvisible: ConstraintLayout,
+        opacityValue: Float
+    ) {
+        for (i in 0 until panelItemVisible.childCount) panelItemVisible.getChildAt(i).alpha =
+            opacityValue
+        for (i in 0 until panelItemVisible.childCount) panelItemInvisible.getChildAt(i).alpha =
+            opacityValue
     }
 
     private fun bindItemsToViews(
         item: Item,
-        image: ImageView,
-        text: TextView,
-        switch: SwitchMaterial,
-        panelItemInvisible: ConstraintLayout
+        imageView: ImageView,
+        textView: TextView,
+        switchMaterial: SwitchMaterial,
+        constraintLayout: ConstraintLayout
     ) {
-        image.setImageResource(item.resId ?: R.drawable.ic_launcher_background)
-        text.text = item.text
-        switch.isChecked = item.isChecked
-        panelItemInvisible.visibility = View.GONE
+        imageView.setImageResource(item.resId ?: R.drawable.ic_launcher_background)
+        textView.text = item.text
+        switchMaterial.isChecked = item.isChecked
+        constraintLayout.visibility = View.GONE
     }
 
     private fun setPanelVisibility(
@@ -180,7 +193,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val VISIBLE_ID_IMAGE = 0
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
     }
