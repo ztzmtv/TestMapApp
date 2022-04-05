@@ -1,7 +1,9 @@
 package com.example.mapapp.presentation
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
+import com.example.mapapp.databinding.BottomPanelBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
@@ -25,6 +28,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this)[MapAppViewModel::class.java] }
+    private val bindingBottom by lazy { BottomPanelBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             //create ViewGroups
             val panelItemVisible = bindingVisible.root
             val panelItemInvisible = bindingInvisible.root
+            val bottomPanel = bindingBottom.root
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
 
@@ -54,15 +59,30 @@ class MainActivity : AppCompatActivity() {
             linearLayoutContainer.addView(panelItemVisible)
             linearLayoutContainer.addView(panelItemInvisible)
             materialCardView.addView(linearLayoutContainer)
+
             linearLayoutScrollContainer.addView(materialCardView)
+            //binding.root.addView(bottomPanel) //TODO("разобраться как вставить")
 
             //bind values
             bindItemsToViews(item, bindingVisible, bindingInvisible, panelItemInvisible)
 
             //set listeners on child views
+            val defaultColors = bindingVisible.tvPanelItem.textColors
+
             bindingVisible.ivArrowPopup.setOnClickListener {
                 setPanelVisibility(
                     panelItemInvisible,
+                    defaultColors,
+                    bindingVisible.ivArrowPopup,
+                    bindingVisible.tvPanelItem,
+                    bindingVisible.ivPanelItem,
+                )
+            }
+
+            bindingVisible.tvPanelItem.setOnClickListener {
+                setPanelVisibility(
+                    panelItemInvisible,
+                    defaultColors,
                     bindingVisible.ivArrowPopup,
                     bindingVisible.tvPanelItem,
                     bindingVisible.ivPanelItem
@@ -102,8 +122,21 @@ class MainActivity : AppCompatActivity() {
         bindingVisible.tvPanelItem.text = item.text
         bindingVisible.swPanelItem.isChecked = item.isChecked
         bindingInvisible.panelSlider.value = item.opacity
+        val textCountOfElements = resources.getString(R.string.string_count_of_elements)
+        bindingInvisible.tvCountOfElements.text =
+            String.format(
+                textCountOfElements,
+                (getCountOfElements(
+                    bindingInvisible, bindingVisible
+                )).toString()
+            )
         panelItemInvisible.visibility = View.GONE
     }
+
+    private fun getCountOfElements(
+        bindingInvisible: PanelItemInvisibleBinding,
+        bindingVisible: PanelItemVisibleBinding
+    ) = bindingInvisible.root.childCount + bindingVisible.root.childCount
 
     private fun changeItemPanelOpacity(
         panelItemInvisible: ConstraintLayout,
@@ -119,11 +152,14 @@ class MainActivity : AppCompatActivity() {
         override fun onStopTrackingTouch(slider: Slider) {
             viewModel.opacityChange(item, slider.value)
             setPanelOpacity(panelItemInvisible, slider.value)
-            tvSynchronized.text = getCurrentDate()
-            tvOpacity.text = slider.value.toString()
+
+            val textSynchronized = resources.getString(R.string.string_synchronized_at)
+            tvSynchronized.text = String.format(textSynchronized, getCurrentDate())
+            val textOpacity = resources.getString(R.string.string_opacity)
+            tvOpacity.text =
+                String.format(textOpacity, ((slider.value) * PERCENTS_MULTIPLICATOR).toString())
+            //TODO("сделать так, чтобы атоматически обновнялись данные айтема")
         }
-
-
     }
 
     private fun getCurrentDate(): String? {
@@ -165,20 +201,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPanelVisibility(
         panelItemInvisible: ConstraintLayout,
+        defaultColors: ColorStateList,
         popupArrow: ImageView,
-        text: TextView,
-        image: ImageView
+        tvPanelItem: TextView,
+        ivPanelItem: ImageView,
     ) {
-        val currentTextColor = text.currentTextColor
         if (panelItemInvisible.visibility == View.GONE) {
             panelItemInvisible.visibility = View.VISIBLE
             popupArrow.setImageResource(R.drawable.ic_arrow_up)
-            text.currentTextColor
-            text.setTextColor(Color.GREEN) //TODO( изменить на нормальные цвета )
+            // ivPanelItem.setColorFilter(Color.GREEN) //TODO( изменить на нормальные цвета )
+            tvPanelItem.setTextColor(Color.GREEN)
+            tvPanelItem.typeface = Typeface.DEFAULT_BOLD
         } else {
             panelItemInvisible.visibility = View.GONE
             popupArrow.setImageResource(R.drawable.ic_arrow_down)
-            text.setTextColor(currentTextColor)
+            tvPanelItem.setTextColor(defaultColors)
+            tvPanelItem.typeface = Typeface.DEFAULT
+
         }
     }
 
@@ -208,6 +247,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
+        private const val PERCENTS_MULTIPLICATOR = 100
         private const val DEFAULT_EMPTY_IMAGE_RES = R.drawable.ic_launcher_background
     }
 }

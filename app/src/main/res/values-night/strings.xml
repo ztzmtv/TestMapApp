@@ -3,4 +3,8 @@
     <string name="ti_layers">Слои</string>
     <string name="ti_backings">Подложки</string>
     <string name="ti_missions">Миссии</string>
+    <string name="string_count_of_elements">Эл-ов: %s</string>
+    <string name="string_zoom_range">Зум: 16-18</string>
+    <string name="string_opacity">Прозрачность: %s</string>
+    <string name="string_synchronized_at">Синхр.: %s</string>
 </resources>
