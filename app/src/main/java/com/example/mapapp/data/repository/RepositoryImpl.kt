@@ -15,7 +15,7 @@ object RepositoryImpl : Repository {
         return getTemplateList()
     }
 
-    override fun changeItemOpacity(item: Item, value: Int) {
+    override fun changeItemOpacity(item: Item, value: Float) {
         item.opacity = value
         editItem(item)
     }
@@ -52,36 +52,36 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Слой делян",
-                opacity = 60
+                opacity = 0.60f
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
                 isChecked = false
             )
@@ -89,37 +89,37 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Слой делян",
-                opacity = 60
+                opacity = 0.60f
             )
         )
 
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                resId = R.drawable.ic_launcher_background,
+                imageResourceId = R.drawable.ic_launcher_background,
                 text = "Маска облачности от 02.07.2021",
                 isChecked = false
             )

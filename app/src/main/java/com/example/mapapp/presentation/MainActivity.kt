@@ -55,14 +55,15 @@ class MainActivity : AppCompatActivity() {
             materialCardView.addView(linearLayoutContainer)
             linearLayoutScrollContainer.addView(materialCardView)
 
-            //get child views
-            bindItemsToViews(
-                item,
-                bindingVisible.ivPanelItem,
-                bindingVisible.tvPanelItem,
-                bindingVisible.swPanelItem,
-                panelItemInvisible
+            //bind values
+            bindingVisible.ivPanelItem.setImageResource(
+                item.imageResourceId ?: R.drawable.ic_launcher_background
             )
+            bindingVisible.tvPanelItem.text = item.text
+            bindingVisible.swPanelItem.isChecked = item.isChecked
+            panelItemInvisible.visibility = View.GONE
+            bindingInvisible.panelSlider.value = item.opacity
+
 
             //set listeners on child views
             bindingVisible.ivArrowPopup.setOnClickListener {
@@ -85,7 +86,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             bindingInvisible.panelSlider.addOnSliderTouchListener(
-                onSliderTouchListener(
+                changeItemPanelOpacity(
+                    panelItemInvisible,
                     item,
                     bindingInvisible.tvSynchronizedAt,
                     bindingInvisible.tvOpacity
@@ -94,7 +96,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onSliderTouchListener(
+    private fun changeItemPanelOpacity(
+        panelItemInvisible: ConstraintLayout,
         item: Item,
         tvSynchronized: TextView,
         tvOpacity: TextView
@@ -105,7 +108,8 @@ class MainActivity : AppCompatActivity() {
 
         @SuppressLint("RestrictedApi")
         override fun onStopTrackingTouch(slider: Slider) {
-            viewModel.opacityChange(item, slider.value.toInt())
+            viewModel.opacityChange(item, slider.value)
+            setPanelOpacity(panelItemInvisible, slider.value)
             tvSynchronized.text = "TODO"//TODO дата синхронизации
             tvOpacity.text = slider.value.toString()
             //TODO()
@@ -132,23 +136,16 @@ class MainActivity : AppCompatActivity() {
         panelItemInvisible: ConstraintLayout,
         opacityValue: Float
     ) {
-        for (i in 0 until panelItemVisible.childCount) panelItemVisible.getChildAt(i).alpha =
-            opacityValue
-        for (i in 0 until panelItemVisible.childCount) panelItemInvisible.getChildAt(i).alpha =
-            opacityValue
+        setPanelOpacity(panelItemVisible, opacityValue)
+        setPanelOpacity(panelItemInvisible, opacityValue)
     }
 
-    private fun bindItemsToViews(
-        item: Item,
-        imageView: ImageView,
-        textView: TextView,
-        switchMaterial: SwitchMaterial,
-        constraintLayout: ConstraintLayout
+    private fun setPanelOpacity(
+        panelItem: ConstraintLayout,
+        opacityValue: Float
     ) {
-        imageView.setImageResource(item.resId ?: R.drawable.ic_launcher_background)
-        textView.text = item.text
-        switchMaterial.isChecked = item.isChecked
-        constraintLayout.visibility = View.GONE
+        for (i in 0 until panelItem.childCount) panelItem.getChildAt(i).alpha =
+            opacityValue
     }
 
     private fun setPanelVisibility(

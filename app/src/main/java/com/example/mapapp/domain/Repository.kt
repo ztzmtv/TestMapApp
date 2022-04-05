@@ -6,7 +6,7 @@ interface Repository {
 
     fun getItemsList(): List<Item>
 
-    fun changeItemOpacity(item: Item, value: Int)
+    fun changeItemOpacity(item: Item, value: Float)
 
     fun setItemOpacity(item: Item, value: Boolean)
 
