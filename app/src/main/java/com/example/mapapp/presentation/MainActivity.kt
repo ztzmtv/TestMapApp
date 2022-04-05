@@ -1,4 +1,4 @@
-package com.example.mapapp
+package com.example.mapapp.presentation
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -12,10 +12,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.databinding.PanelItemVisibleBinding
-import com.example.mapapp.entity.Item
+import com.example.mapapp.domain.entity.Item
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial

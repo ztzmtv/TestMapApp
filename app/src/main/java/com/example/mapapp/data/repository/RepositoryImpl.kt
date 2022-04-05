@@ -1,23 +1,54 @@
-package com.example.mapapp.repository
+package com.example.mapapp.data.repository
 
+import android.util.Log
 import com.example.mapapp.R
-import com.example.mapapp.entity.Item
+import com.example.mapapp.domain.Repository
+import com.example.mapapp.domain.entity.Item
 
-object Repository {
+object RepositoryImpl : Repository {
 
     private var count_id = 0
     private val list = mutableListOf<Item>()
 
-    fun addItem(item: Item) {
+    override fun getItemsList(): List<Item> {
+        //TODO("Нужно разобраться, как возвращать первоначальный лист")
+        return getTemplateList()
+    }
+
+    override fun changeItemOpacity(item: Item, value: Int) {
+        item.opacity = value
+        editItem(item)
+    }
+
+    override fun setItemOpacity(item: Item, value: Boolean) {
+        item.isChecked = value
+        editItem(item)
+    }
+
+    override fun addItem(item: Item) {
         list.add(item)
     }
 
-    fun getList(): List<Item> {
+    private fun getList(): List<Item> {
         return list
     }
 
+    private fun editItem(item: Item) {
+        val index = getItemIndex(item)
+        index?.let { list.set(it, item) }
+        Log.d("RepositoryImpl_TAG", "$list")
+    }
 
-    fun getTemplateList(): List<Item> {
+    private fun getItem(id: Int): Item? {
+        for (item in list) {
+            if (id == item.id) {
+                return item
+            }
+        }
+        return null
+    }
+
+    private fun getTemplateList(): List<Item> {
         list.add(
             Item(
                 id = count_id++,
@@ -96,4 +127,12 @@ object Repository {
         return list
     }
 
+    private fun getItemIndex(item: Item): Int? {
+        for ((index, listItem) in list.withIndex()) {
+            if (item.id == listItem.id) {
+                return index
+            }
+        }
+        return null
+    }
 }

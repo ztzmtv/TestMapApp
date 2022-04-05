@@ -1,4 +1,4 @@
-package com.example.mapapp.entity
+package com.example.mapapp.domain.entity
 
 data class Item(
 
