@@ -19,6 +19,8 @@ import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -117,10 +119,16 @@ class MainActivity : AppCompatActivity() {
         override fun onStopTrackingTouch(slider: Slider) {
             viewModel.opacityChange(item, slider.value)
             setPanelOpacity(panelItemInvisible, slider.value)
-            tvSynchronized.text = "TODO"//TODO дата синхронизации
+            tvSynchronized.text = getCurrentDate()
             tvOpacity.text = slider.value.toString()
-            //TODO()
         }
+
+
+    }
+
+    private fun getCurrentDate(): String? {
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        return sdf.format(Date())
     }
 
     private fun setPanelItemsOpacity(
