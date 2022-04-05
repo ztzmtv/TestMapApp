@@ -19,7 +19,6 @@ import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -56,14 +55,7 @@ class MainActivity : AppCompatActivity() {
             linearLayoutScrollContainer.addView(materialCardView)
 
             //bind values
-            bindingVisible.ivPanelItem.setImageResource(
-                item.imageResourceId ?: R.drawable.ic_launcher_background
-            )
-            bindingVisible.tvPanelItem.text = item.text
-            bindingVisible.swPanelItem.isChecked = item.isChecked
-            panelItemInvisible.visibility = View.GONE
-            bindingInvisible.panelSlider.value = item.opacity
-
+            bindItemsToViews(item, bindingVisible, bindingInvisible, panelItemInvisible)
 
             //set listeners on child views
             bindingVisible.ivArrowPopup.setOnClickListener {
@@ -94,6 +86,21 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+    }
+
+    private fun bindItemsToViews(
+        item: Item,
+        bindingVisible: PanelItemVisibleBinding,
+        bindingInvisible: PanelItemInvisibleBinding,
+        panelItemInvisible: ConstraintLayout
+    ) {
+        bindingVisible.ivPanelItem.setImageResource(
+            item.imageResourceId ?: DEFAULT_EMPTY_IMAGE_RES
+        )
+        bindingVisible.tvPanelItem.text = item.text
+        bindingVisible.swPanelItem.isChecked = item.isChecked
+        bindingInvisible.panelSlider.value = item.opacity
+        panelItemInvisible.visibility = View.GONE
     }
 
     private fun changeItemPanelOpacity(
@@ -193,5 +200,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
+        private const val DEFAULT_EMPTY_IMAGE_RES = R.drawable.ic_launcher_background
     }
 }
