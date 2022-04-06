@@ -27,10 +27,7 @@ object RepositoryImpl : Repository {
 
     override fun addItem(item: Item) {
         list.add(item)
-    }
-
-    private fun getList(): List<Item> {
-        return list
+        Log.d("RepositoryImpl_TAG","OK")
     }
 
     private fun editItem(item: Item) {
@@ -39,14 +36,6 @@ object RepositoryImpl : Repository {
         Log.d("RepositoryImpl_TAG", "$list")
     }
 
-    private fun getItem(id: Int): Item? {
-        for (item in list) {
-            if (id == item.id) {
-                return item
-            }
-        }
-        return null
-    }
 
     private fun getTemplateList(): List<Item> {
         list.add(
@@ -137,4 +126,23 @@ object RepositoryImpl : Repository {
         }
         return null
     }
+
+//    private fun getList(): List<Item> {
+//        return list
+//    }
+
+    //    private fun getItem(id: Int): Item? {
+//        for (item in list) {
+//            if (id == item.id) {
+//                return item
+//            }
+//        }
+//        return null
+//    }
+
+    val DEFAULT_ITEM = Item(
+        id = count_id++,
+        imageResId = R.drawable.ic_launcher_background,
+        text = "Маска облачности от 02.07.2021",
+    )
 }

@@ -1,5 +1,6 @@
 package com.example.mapapp.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -36,5 +37,11 @@ class MapAppViewModel : ViewModel() {
 
     fun opacityChange(item: Item, value: Float) {
         changeItemOpacityUseCase(item, value)
+    }
+
+    fun addDefaultItem() {
+        addItemUseCase(repository.DEFAULT_ITEM)
+        Log.d("MapAppViewModel_TAG","OK")
+        _itemsList.value = getItemsListUseCase()
     }
 }

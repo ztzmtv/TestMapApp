@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,13 @@ class MainActivity : AppCompatActivity() {
             dynamicallyCreateViews(it, binding.llContainer)
         }
         setDrawerLayout()
+        setFabScrollListener()
+        bindingBottom.btnAddItem.setOnClickListener {
+            viewModel.addDefaultItem()
+            Log.d("MainActivity", "OK")
+            TODO("Не работает. Почему?")
+        }
+
     }
 
     private fun setDrawerLayout() {
@@ -98,7 +106,6 @@ class MainActivity : AppCompatActivity() {
             bindItemsToViews(item, bindingVisible, bindingInvisible, panelItemInvisible)
 
             //set listeners on child views
-            val defaultColors = bindingVisible.tvPanelItem.textColors
 
             bindingVisible.ivArrowPopup.setOnClickListener {
                 setPanelVisibility(
@@ -138,8 +145,6 @@ class MainActivity : AppCompatActivity() {
                     bindingInvisible.tvOpacity
                 )
             )
-            setFabScrollListener()
-
         }
     }
 

@@ -8,5 +8,4 @@ class AddItemUseCase(
     operator fun invoke(item: Item) {
         repository.addItem(item)
     }
-
 }
