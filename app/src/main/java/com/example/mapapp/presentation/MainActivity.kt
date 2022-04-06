@@ -5,14 +5,18 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
@@ -25,10 +29,14 @@ import com.google.android.material.slider.Slider
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this)[MapAppViewModel::class.java] }
     private val bindingBottom by lazy { BottomPanelBinding.inflate(layoutInflater) }
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,29 @@ class MainActivity : AppCompatActivity() {
         viewModel.sortedItemsList.observe(this) {
             dynamicallyCreateViews(it, binding.llContainer)
         }
+        setDrawerLayout()
+    }
+
+    private fun setDrawerLayout() {
+        drawerLayout = findViewById(R.id.drawer_layout)
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                drawerLayout.closeDrawer(GravityCompat.END);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private fun dynamicallyCreateViews(
@@ -59,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             linearLayoutContainer.addView(panelItemVisible)
             linearLayoutContainer.addView(panelItemInvisible)
             materialCardView.addView(linearLayoutContainer)
-
             linearLayoutScrollContainer.addView(materialCardView)
             //binding.root.addView(bottomPanel) //TODO("разобраться как вставить")
 
