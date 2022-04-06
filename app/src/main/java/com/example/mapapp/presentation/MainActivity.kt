@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.itemsList.observe(this) {
+        viewModel.sortedItemsList.observe(this) {
             dynamicallyCreateViews(it, binding.llContainer)
         }
     }
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         panelItemInvisible: ConstraintLayout
     ) {
         bindingVisible.ivPanelItem.setImageResource(
-            item.imageResourceId ?: DEFAULT_EMPTY_IMAGE_RES
+            item.imageResId ?: DEFAULT_EMPTY_IMAGE_RES
         )
         bindingVisible.tvPanelItem.text = item.text
         bindingVisible.swPanelItem.isChecked = item.isChecked
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
             tvSynchronized.text = String.format(textSynchronized, getCurrentDate())
             val textOpacity = resources.getString(R.string.string_opacity)
             tvOpacity.text =
-                String.format(textOpacity, ((slider.value) * PERCENTS_MULTIPLICATOR).toString())
+                String.format(textOpacity, ((slider.value) * PERCENTS_MULTIPLIER).toString())
             //TODO("сделать так, чтобы атоматически обновнялись данные айтема")
         }
     }
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val OPACITY_FULL = 1.0f
         private const val OPACITY_HALF = 0.5f
-        private const val PERCENTS_MULTIPLICATOR = 100
+        private const val PERCENTS_MULTIPLIER = 100
         private const val DEFAULT_EMPTY_IMAGE_RES = R.drawable.ic_launcher_background
     }
 }
