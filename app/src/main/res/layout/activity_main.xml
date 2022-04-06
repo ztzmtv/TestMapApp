@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content" />
 
             <ScrollView
+                android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
@@ -53,6 +54,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="64dp"
+            android:contentDescription="@string/string_fab_description"
+            android:src="@drawable/ic_fab_arrow_down" />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

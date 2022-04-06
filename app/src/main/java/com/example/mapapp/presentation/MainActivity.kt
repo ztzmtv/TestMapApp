@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -82,9 +83,9 @@ class MainActivity : AppCompatActivity() {
             //create ViewGroups
             val panelItemVisible = bindingVisible.root
             val panelItemInvisible = bindingInvisible.root
-            val bottomPanel = bindingBottom.root
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
+            val defaultColors = bindingVisible.tvPanelItem.textColors
 
             //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
@@ -137,6 +138,25 @@ class MainActivity : AppCompatActivity() {
                     bindingInvisible.tvOpacity
                 )
             )
+            setFabScrollListener()
+
+        }
+    }
+
+    private fun setFabScrollListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.fab.visibility = View.VISIBLE
+            binding.scrollView.setOnScrollChangeListener { view, _, _, _, _ ->
+                val childView = binding.scrollView.getChildAt(0)
+                val diff = childView.bottom - (view.height + view.scrollY)
+                if (diff == 0) {
+                    binding.fab.visibility = View.GONE
+                } else {
+                    binding.fab.visibility = View.VISIBLE
+                }
+            }
+        } else {
+            binding.fab.visibility = View.GONE
         }
     }
 

@@ -10,4 +10,7 @@
 
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+
+    <string name="access_token">pk.eyJ1IjoiYXptZXRvdiIsImEiOiJjbDFudzF6dm0wMDNpM2RucWV4bGV4aHMxIn0.G2zObFagQIRsnhd_C227kg</string>
+    <string name="string_fab_description">В конец списка</string>
 </resources>
