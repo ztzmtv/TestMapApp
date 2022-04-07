@@ -1,6 +1,5 @@
 package com.example.mapapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -19,9 +18,11 @@ class MapAppViewModel : ViewModel() {
     private val setItemOpacityUseCase = SetItemOpacityUseCase(repository)
     private val getItemsListUseCase = GetItemsListUseCase(repository)
     private val _itemsList = MutableLiveData<List<Item>>()
+
     val itemsList: LiveData<List<Item>>
         get() = _itemsList
 
+    //livedata with list sorted by group
     val sortedItemsList: LiveData<List<Item>> =
         Transformations.map(_itemsList) { list ->
             list.sortedByDescending { item -> item.group }
@@ -41,7 +42,6 @@ class MapAppViewModel : ViewModel() {
 
     fun addDefaultItem() {
         addItemUseCase(repository.DEFAULT_ITEM)
-        Log.d("MapAppViewModel_TAG","OK")
         _itemsList.value = getItemsListUseCase()
     }
 }

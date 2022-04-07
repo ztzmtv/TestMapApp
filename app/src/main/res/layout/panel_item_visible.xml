@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/tv_panel_item"
-        android:layout_width="174dp"
+        android:layout_width="140dp"
         android:layout_height="48dp"
         android:layout_marginStart="12dp"
         android:gravity="start"

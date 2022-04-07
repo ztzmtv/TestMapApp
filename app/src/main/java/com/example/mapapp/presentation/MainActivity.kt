@@ -22,7 +22,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
-import com.example.mapapp.databinding.BottomPanelBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
@@ -101,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             linearLayoutContainer.addView(panelItemInvisible)
             materialCardView.addView(linearLayoutContainer)
             linearLayoutScrollContainer.addView(materialCardView)
-            //binding.root.addView(bottomPanel) //TODO("разобраться как вставить")
 
             //bind values
             bindItemsToViews(item, bindingVisible, bindingInvisible, panelItemInvisible)
@@ -177,6 +175,11 @@ class MainActivity : AppCompatActivity() {
         bindingVisible.tvPanelItem.text = item.text
         bindingVisible.swPanelItem.isChecked = item.isChecked
         bindingInvisible.panelSlider.value = item.opacity
+        val textOpacity = resources.getString(R.string.string_opacity)
+        bindingInvisible.tvOpacity.text =
+            String.format(textOpacity, ((item.opacity) * PERCENTS_MULTIPLIER).toInt().toString())
+        val textSynchronized = resources.getString(R.string.string_synchronized_at)
+        bindingInvisible.tvSynchronizedAt.text = String.format(textSynchronized, getCurrentDate())
         val textCountOfElements = resources.getString(R.string.string_count_of_elements)
         bindingInvisible.tvCountOfElements.text =
             String.format(
@@ -185,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                     bindingInvisible, bindingVisible
                 )).toString()
             )
+        setPanelOpacity(panelItemInvisible, item.opacity)
         panelItemInvisible.visibility = View.GONE
     }
 
@@ -207,13 +211,14 @@ class MainActivity : AppCompatActivity() {
         override fun onStopTrackingTouch(slider: Slider) {
             viewModel.opacityChange(item, slider.value)
             setPanelOpacity(panelItemInvisible, slider.value)
-
             val textSynchronized = resources.getString(R.string.string_synchronized_at)
             tvSynchronized.text = String.format(textSynchronized, getCurrentDate())
             val textOpacity = resources.getString(R.string.string_opacity)
             tvOpacity.text =
-                String.format(textOpacity, ((slider.value) * PERCENTS_MULTIPLIER).toString())
-            //TODO("сделать так, чтобы атоматически обновнялись данные айтема")
+                String.format(
+                    textOpacity,
+                    ((slider.value) * PERCENTS_MULTIPLIER).toInt().toString()
+                )
         }
     }
 
@@ -264,7 +269,6 @@ class MainActivity : AppCompatActivity() {
         if (panelItemInvisible.visibility == View.GONE) {
             panelItemInvisible.visibility = View.VISIBLE
             popupArrow.setImageResource(R.drawable.ic_arrow_up)
-            // ivPanelItem.setColorFilter(Color.GREEN) //TODO( изменить на нормальные цвета )
             tvPanelItem.setTextColor(Color.GREEN)
             tvPanelItem.typeface = Typeface.DEFAULT_BOLD
         } else {
@@ -272,7 +276,6 @@ class MainActivity : AppCompatActivity() {
             popupArrow.setImageResource(R.drawable.ic_arrow_down)
             tvPanelItem.setTextColor(defaultColors)
             tvPanelItem.typeface = Typeface.DEFAULT
-
         }
     }
 

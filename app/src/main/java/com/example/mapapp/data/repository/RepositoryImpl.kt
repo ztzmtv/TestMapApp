@@ -11,7 +11,6 @@ object RepositoryImpl : Repository {
     private val list = mutableListOf<Item>()
 
     override fun getItemsList(): List<Item> {
-        //TODO("Нужно разобраться, как возвращать первоначальный лист")
         return getTemplateList()
     }
 
@@ -27,7 +26,7 @@ object RepositoryImpl : Repository {
 
     override fun addItem(item: Item) {
         list.add(item)
-        Log.d("RepositoryImpl_TAG","OK")
+        Log.d("RepositoryImpl_TAG", "OK")
     }
 
     private fun editItem(item: Item) {
@@ -35,7 +34,6 @@ object RepositoryImpl : Repository {
         index?.let { list.set(it, item) }
         Log.d("RepositoryImpl_TAG", "$list")
     }
-
 
     private fun getTemplateList(): List<Item> {
         list.add(
@@ -127,19 +125,7 @@ object RepositoryImpl : Repository {
         return null
     }
 
-//    private fun getList(): List<Item> {
-//        return list
-//    }
-
-    //    private fun getItem(id: Int): Item? {
-//        for (item in list) {
-//            if (id == item.id) {
-//                return item
-//            }
-//        }
-//        return null
-//    }
-
+// value adding by default
     val DEFAULT_ITEM = Item(
         id = count_id++,
         imageResId = R.drawable.ic_launcher_background,
