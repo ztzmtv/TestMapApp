@@ -35,8 +35,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this)[MapAppViewModel::class.java] }
-    private val bindingBottom by lazy { BottomPanelBinding.inflate(layoutInflater) }
-
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
@@ -47,14 +45,17 @@ class MainActivity : AppCompatActivity() {
         viewModel.sortedItemsList.observe(this) {
             dynamicallyCreateViews(it, binding.llContainer)
         }
+
         setDrawerLayout()
         setFabScrollListener()
-        bindingBottom.btnAddItem.setOnClickListener {
+        setBtnAddItemClickListener()
+    }
+
+    private fun setBtnAddItemClickListener() {
+        binding.includeLayout.btnAddItem.setOnClickListener {
             viewModel.addDefaultItem()
             Log.d("MainActivity", "OK")
-            TODO("Не работает. Почему?")
         }
-
     }
 
     private fun setDrawerLayout() {
@@ -106,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             bindItemsToViews(item, bindingVisible, bindingInvisible, panelItemInvisible)
 
             //set listeners on child views
-
             bindingVisible.ivArrowPopup.setOnClickListener {
                 setPanelVisibility(
                     panelItemInvisible,
@@ -154,10 +154,10 @@ class MainActivity : AppCompatActivity() {
             binding.scrollView.setOnScrollChangeListener { view, _, _, _, _ ->
                 val childView = binding.scrollView.getChildAt(0)
                 val diff = childView.bottom - (view.height + view.scrollY)
-                if (diff == 0) {
-                    binding.fab.visibility = View.GONE
+                binding.fab.visibility = if (diff == 0) {
+                    View.GONE
                 } else {
-                    binding.fab.visibility = View.VISIBLE
+                    View.VISIBLE
                 }
             }
         } else {
