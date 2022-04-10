@@ -4,93 +4,112 @@
     android:id="@+id/cl_invisible_part"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="20dp">
+    android:layout_marginVertical="20dp"
+    android:background="?colorPrimary">
 
-    <TextView
-        android:id="@+id/tv_opacity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="28dp"
-        android:text="@string/string_opacity"
-        app:layout_constraintBottom_toTopOf="@+id/panel_slider"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="0dp"
+        style="@style/CustomCardViewStyle"
+        android:background="@drawable/panel_item_shape"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_synchronized_at"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:text="@string/string_synchronized_at"
-        app:layout_constraintBottom_toTopOf="@+id/panel_slider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_opacity"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/panel_slider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:stepSize="0.1"
-        android:valueFrom="0"
-        android:valueTo="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+            <TextView
+                android:id="@+id/tv_opacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:text="@string/string_opacity"
+                app:layout_constraintBottom_toTopOf="@+id/panel_slider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_count_of_elements"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="28dp"
-        android:layout_marginVertical="20dp"
-        android:text="@string/string_count_of_elements"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+            <TextView
+                android:id="@+id/tv_synchronized_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@string/string_synchronized_at"
+                android:textColor="?colorOnPrimary"
+                app:layout_constraintBottom_toTopOf="@+id/panel_slider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@+id/tv_opacity"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_zoom_range"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="28dp"
-        android:layout_marginStart="20dp"
-        android:text="@string/string_zoom_range"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_count_of_elements"
-        app:layout_constraintTop_toBottomOf="@+id/panel_slider" />
+            <com.google.android.material.slider.Slider
+                android:id="@+id/panel_slider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:stepSize="0.1"
+                android:valueFrom="0"
+                android:valueTo="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.2" />
 
-    <ImageView
-        android:id="@+id/iv_aim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:src="@drawable/ic_aim"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+            <TextView
+                android:id="@+id/tv_count_of_elements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginVertical="20dp"
+                android:text="@string/string_count_of_elements"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/panel_slider" />
 
-    <ImageView
-        android:id="@+id/iv_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:src="@drawable/ic_list"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iv_aim"
-        app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+            <TextView
+                android:id="@+id/tv_zoom_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/string_zoom_range"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_count_of_elements"
+                app:layout_constraintTop_toBottomOf="@+id/panel_slider" />
 
-    <ImageView
-        android:id="@+id/iv_contour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:src="@drawable/ic_contour"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iv_list"
-        app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+            <ImageView
+                android:id="@+id/iv_aim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:src="@drawable/ic_aim"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+
+            <ImageView
+                android:id="@+id/iv_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:src="@drawable/ic_list"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_aim"
+                app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+
+            <ImageView
+                android:id="@+id/iv_contour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:src="@drawable/ic_contour"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_list"
+                app:layout_constraintTop_toBottomOf="@id/panel_slider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

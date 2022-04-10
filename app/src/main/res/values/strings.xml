@@ -4,13 +4,12 @@
     <string name="ti_backings">Подложки</string>
     <string name="ti_missions">Миссии</string>
     <string name="string_count_of_elements">Эл-ов: %s</string>
-    <string name="string_zoom_range">Зум: 16-18</string>
+    <string name="string_zoom_range">Зум: 16–18</string>
     <string name="string_opacity">Прозрачность: %s</string>
     <string name="string_synchronized_at">Синхр.: %s</string>
 
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
 
-    <string name="access_token">pk.eyJ1IjoiYXptZXRvdiIsImEiOiJjbDFudzF6dm0wMDNpM2RucWV4bGV4aHMxIn0.G2zObFagQIRsnhd_C227kg</string>
     <string name="string_fab_description">В конец списка</string>
 </resources>

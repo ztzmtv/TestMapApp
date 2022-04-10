@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.MapApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">#252d45</item>
+        <item name="colorPrimaryVariant">#4d566f</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">#59bd87</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
 
@@ -15,18 +15,6 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <!-- Customize your theme here. -->
-        <!--        <?xml version="1.0"?>-->
-
-        <!--?xml version="1.0" encoding="UTF-8"?-->
-
-        <!--        <color name="primaryColor">#1976d2</color>-->
-        <!--        <color name="primaryLightColor">#63a4ff</color>-->
-        <!--        <color name="primaryDarkColor">#004ba0</color>-->
-        <!--        <color name="secondaryColor">#0d47a1</color>-->
-        <!--        <color name="secondaryLightColor">#5472d3</color>-->
-        <!--        <color name="secondaryDarkColor">#002171</color>-->
-        <!--        <color name="primaryTextColor">#ffffff</color>-->
-        <!--        <color name="secondaryTextColor">#ffffff</color>-->
 
     </style>
 </resources>
