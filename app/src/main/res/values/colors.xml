@@ -8,11 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primaryColor">#252d45</color>
-    <color name="secondaryColor">#4d566f</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="primaryLightColor">#59bd87</color>
-    <color name="secondaryTextColor">#969BAA</color>
+    <color name="primaryColor">#FF252d45</color>
+    <color name="secondaryColor">#FF4d566f</color>
+    <color name="primaryTextColor">#FFffffff</color>
+    <color name="primaryLightColor">#FF59bd87</color>
+    <color name="secondaryTextColor">#FF969BAA</color>
+    <color name="lineColor">#FF777E91</color>
 
     <color name="primaryDarkColor">#004ba0</color>
     <color name="secondaryLightColor">#5472d3</color>

@@ -19,24 +19,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:tint="?colorOnPrimary"
+        app:tint="@color/primaryTextColor"
         tools:src="@drawable/waypoint" />
 
     <TextView
         android:id="@+id/tv_panel_item"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/pt_sans"
-        android:gravity="start"
-        android:textColor="?colorOnPrimary"
+        android:gravity="start|center_vertical"
+        android:lineSpacingExtra="2sp"
+        android:lineSpacingMultiplier="0.8"
+        android:textColor="@color/primaryTextColor"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_eye"
         app:layout_constraintStart_toEndOf="@+id/iv_panel_item"
         app:layout_constraintTop_toTopOf="parent"
-
-        app:layout_constraintEnd_toStartOf="@id/iv_eye"
-        tools:text="Просто текстввввввввввввввааааааааааааааав" />
+        tools:text="росто текстввввввввввввввааааааааааааааа sesefв" />
 
     <ImageView
         android:id="@+id/iv_eye"
@@ -66,14 +67,15 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/sw_panel_item"
-        android:theme="@style/CustomSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:trackTint="@color/secondaryTextColor"
         android:layout_marginEnd="16dp"
+        android:theme="@style/CustomSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackTint="@color/secondaryTextColor" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

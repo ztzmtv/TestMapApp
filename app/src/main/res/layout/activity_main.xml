@@ -29,6 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal" />
+
             <ScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
@@ -43,8 +49,8 @@
                     android:id="@+id/ll_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/primaryColor">
+                    android:background="@color/primaryColor"
+                    android:orientation="vertical">
 
                 </LinearLayout>
             </ScrollView>
