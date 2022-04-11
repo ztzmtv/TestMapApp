@@ -9,9 +9,9 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
+    app:tabMode="fixed"
     app:tabSelectedTextColor="@color/primaryTextColor"
-    app:tabTextColor="@color/secondaryTextColor"
-    app:tabMode="fixed">
+    app:tabTextColor="@color/secondaryTextColor">
 
     <com.google.android.material.tabs.TabItem
 

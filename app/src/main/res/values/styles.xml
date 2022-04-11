@@ -14,4 +14,17 @@
         <item name="cornerSizeBottomLeft">8dp</item>
     </style>
 
+    <style name="CustomSwitch">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/primaryLightColor</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/primaryTextColor
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/secondaryTextColor
+        </item>
+    </style>
+
 </resources>
