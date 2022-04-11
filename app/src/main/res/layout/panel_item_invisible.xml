@@ -40,6 +40,7 @@
                 android:id="@+id/tv_synchronized_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="38dp"
                 android:gravity="end"
                 android:text="@string/string_synchronized_at"
                 android:textColor="@color/primaryTextColor"
@@ -51,10 +52,6 @@
             <com.google.android.material.slider.Slider
                 android:id="@+id/panel_slider"
                 android:layout_width="match_parent"
-                app:thumbColor="@color/primaryTextColor"
-                app:tickVisible="false"
-                app:trackColorInactive="@color/secondaryTextColor"
-                app:trackColorActive="@color/primaryLightColor"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="0dp"
                 android:stepSize="0.01"
@@ -65,7 +62,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.2" />
+                app:layout_constraintVertical_bias="0.4"
+                app:thumbColor="@color/primaryTextColor"
+                app:tickVisible="false"
+                app:trackColorActive="@color/primaryLightColor"
+                app:trackColorInactive="@color/secondaryTextColor" />
 
             <TextView
                 android:id="@+id/tv_count_of_elements"
@@ -91,9 +92,10 @@
 
             <ImageView
                 android:id="@+id/iv_aim"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/center_to_gps"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,8 +104,9 @@
 
             <ImageView
                 android:id="@+id/iv_list"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/note"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_aim"
@@ -111,11 +114,12 @@
 
             <ImageView
                 android:id="@+id/iv_contour"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/eye_figure"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_list"
-android:src="@drawable/eye_figure"
                 app:tint="@color/primaryTextColor" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
