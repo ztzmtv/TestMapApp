@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
+import com.example.mapapp.databinding.GroupDividerBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         listItems: List<Item>,
         linearLayoutScrollContainer: LinearLayout,
     ) {
+        var groupName: String? = null
         for (item in listItems) {
             //binding
             val bindingVisible = PanelItemVisibleBinding.inflate(layoutInflater)
@@ -92,7 +94,16 @@ class MainActivity : AppCompatActivity() {
             val panelItemInvisible = bindingInvisible.root
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
-            val defaultColors = bindingVisible.tvPanelItem.textColors
+
+            groupName?.let {
+                if (item.group != it) {
+                    val groupDivider = GroupDividerBinding.inflate(layoutInflater)
+                    groupDivider.tvGroupName.text = groupName ?: "Без названия"
+                    linearLayoutContainer.addView(groupDivider.root)
+                }
+            }
+            groupName = item.group
+
 
             //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
