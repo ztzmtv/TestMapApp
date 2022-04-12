@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -84,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         linearLayoutScrollContainer: LinearLayout,
     ) {
         var groupName: String? = null
+
         for (item in listItems) {
             //binding
             val bindingVisible = PanelItemVisibleBinding.inflate(layoutInflater)
@@ -95,7 +94,14 @@ class MainActivity : AppCompatActivity() {
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
 
-            generateGroupDivider(groupName, item, linearLayoutContainer)
+            groupName.let {
+                if (item.group != it && groupName != null) {
+                    val groupDivider = GroupDividerBinding.inflate(layoutInflater)
+                    groupDivider.tvGroupName.text = groupName ?: "Без названия"
+                    linearLayoutContainer.addView(groupDivider.root)
+                }
+                groupName = item.group
+            }
 
             //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
@@ -146,21 +152,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateGroupDivider(
-        groupName: String?,
-        item: Item,
-        linearLayoutContainer: LinearLayout
-    ) {
-        var groupName1 = groupName
-        groupName1?.let {
-            if (item.group != it) {
-                val groupDivider = GroupDividerBinding.inflate(layoutInflater)
-                groupDivider.tvGroupName.text = groupName1 ?: "Без названия"
-                linearLayoutContainer.addView(groupDivider.root)
-            }
-        }
-        groupName1 = item.group
-    }
 
     private fun setFabScrollListener() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
