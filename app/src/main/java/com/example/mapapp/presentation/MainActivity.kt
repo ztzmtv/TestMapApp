@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity() {
             imageEye.visibility = View.VISIBLE
         } else {
             setPanelsOpacity(panelItemVisible, panelItemInvisible, OPACITY_FULL)
-            imageEye.visibility = View.INVISIBLE
+            imageEye.visibility = View.GONE
         }
     }
 
