@@ -39,7 +39,7 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.geometry_collection,
                 text = "Слой делян",
                 opacity = 0.60f,
                 group = "Общая группа",
@@ -48,21 +48,21 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.waypoint,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.polygon,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.polygon,
                 text = "Маска облачности от 02.07.2021",
                 group = "Общая группа",
             )
@@ -70,7 +70,7 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.polygon,
                 text = "Маска облачности от 02.07.2021",
                 isChecked = false
             )
@@ -78,7 +78,7 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.geometry_collection,
                 text = "Слой делян",
                 opacity = 0.60f
             )
@@ -87,28 +87,28 @@ object RepositoryImpl : Repository {
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.waypoint,
                 text = "Сигналы о лесоизменениях, тестовая выборка с ув-ным шагом",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.line,
                 text = "Преграды для прохождения огня",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.polygon_hatched,
                 text = "Маска облачности от 02.07.2021",
             )
         )
         list.add(
             Item(
                 id = count_id++,
-                imageResId = R.drawable.ic_launcher_background,
+                imageResId = R.drawable.polygon,
                 text = "Маска облачности от 02.07.2021",
                 isChecked = false
             )
@@ -128,7 +128,7 @@ object RepositoryImpl : Repository {
 // value adding by default
     val DEFAULT_ITEM = Item(
         id = count_id++,
-        imageResId = R.drawable.ic_launcher_background,
+        imageResId = R.drawable.polygon,
         text = "Маска облачности от 02.07.2021",
     )
 }

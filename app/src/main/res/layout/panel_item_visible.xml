@@ -5,65 +5,77 @@
     android:id="@+id/cl_visible_part"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?colorPrimary"
     android:longClickable="true">
 
     <ImageView
         android:id="@+id/iv_panel_item"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="28dp"
-        android:layout_marginVertical="28dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:src="@drawable/ic_launcher_background" />
+        app:tint="@color/primaryTextColor"
+        tools:src="@drawable/waypoint" />
 
     <TextView
         android:id="@+id/tv_panel_item"
-        android:layout_width="140dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:gravity="start"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/pt_sans"
+        android:gravity="start|center_vertical"
+        android:lineSpacingExtra="2sp"
+        android:lineSpacingMultiplier="0.8"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_eye"
         app:layout_constraintStart_toEndOf="@+id/iv_panel_item"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Просто текстввввввввввввввааааааааааааааав" />
+        tools:text="росто текстввввввввввввввааааааааааааааа sesefв" />
 
     <ImageView
         android:id="@+id/iv_eye"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:src="@drawable/ic_eye"
-        android:visibility="invisible"
+        android:src="@drawable/invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/iv_arrow_popup"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tv_panel_item"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/primaryTextColor" />
 
     <ImageView
         android:id="@+id/iv_arrow_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="8dp"
         android:contentDescription="TODO"
-        android:padding="10dp"
-        android:src="@drawable/ic_arrow_down"
+        android:src="@drawable/folded_state"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/sw_panel_item"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?colorOnPrimary" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/sw_panel_item"
-        android:layout_marginEnd="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:theme="@style/CustomSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackTint="@color/secondaryTextColor" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,10 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
+    android:background="@color/primaryColor"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:tabMode="fixed">
+    app:tabIndicatorColor="@color/primaryTextColor"
+    app:tabIndicatorHeight="4dp"
+    app:tabMode="fixed"
+    app:tabSelectedTextColor="@color/primaryTextColor"
+    app:tabTextColor="@color/secondaryTextColor">
 
     <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
@@ -24,4 +29,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ti_missions" />
+
 </com.google.android.material.tabs.TabLayout>

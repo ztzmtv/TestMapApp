@@ -4,7 +4,7 @@
     android:id="@+id/cl_bottom_panel"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="?colorPrimary"
+    android:background="?colorPrimaryVariant"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
@@ -13,27 +13,58 @@
         android:id="@+id/btn_add_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_item"
+        android:layout_margin="24dp"
+        android:background="@color/secondaryColor"
+        android:src="@drawable/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/primaryTextColor" />
 
     <ImageButton
         android:id="@+id/btn_find_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_search"
+        android:layout_margin="24dp"
+        android:background="@color/secondaryColor"
+        android:src="@drawable/search"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_add_item"
+        app:layout_constraintStart_toEndOf="@+id/btn_add_item"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SeekBar
+    <ImageButton
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:max="2"
+        android:layout_margin="24dp"
+        android:background="@color/secondaryColor"
+        android:src="@drawable/delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_find_item"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_drag_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/secondaryColor"
+        android:src="@drawable/drag_button_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sw_panel_bottom"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/sw_panel_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:theme="@style/CustomSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackTint="@color/secondaryTextColor" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

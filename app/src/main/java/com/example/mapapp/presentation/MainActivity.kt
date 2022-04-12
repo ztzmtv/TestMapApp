@@ -1,12 +1,9 @@
 package com.example.mapapp.presentation
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +14,13 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
+import com.example.mapapp.databinding.GroupDividerBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.databinding.PanelItemVisibleBinding
 import com.example.mapapp.domain.entity.Item
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity() {
     private fun setBtnAddItemClickListener() {
         binding.includeLayout.btnAddItem.setOnClickListener {
             viewModel.addDefaultItem()
-            Log.d("MainActivity", "OK")
         }
     }
 
@@ -70,19 +68,21 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.closeDrawer(GravityCompat.END);
+                drawerLayout.closeDrawer(GravityCompat.END)
             } else {
-                drawerLayout.openDrawer(GravityCompat.END);
+                drawerLayout.openDrawer(GravityCompat.END)
             }
-            return true;
+            return true
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
     private fun dynamicallyCreateViews(
         listItems: List<Item>,
         linearLayoutScrollContainer: LinearLayout,
     ) {
+        var groupName: String? = null
+
         for (item in listItems) {
             //binding
             val bindingVisible = PanelItemVisibleBinding.inflate(layoutInflater)
@@ -93,7 +93,15 @@ class MainActivity : AppCompatActivity() {
             val panelItemInvisible = bindingInvisible.root
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
-            val defaultColors = bindingVisible.tvPanelItem.textColors
+
+            groupName.let {
+                if (item.group != it && groupName != null) {
+                    val groupDivider = GroupDividerBinding.inflate(layoutInflater)
+                    groupDivider.tvGroupName.text = groupName ?: "Без названия"
+                    linearLayoutContainer.addView(groupDivider.root)
+                }
+                groupName = item.group
+            }
 
             //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
@@ -108,7 +116,6 @@ class MainActivity : AppCompatActivity() {
             bindingVisible.ivArrowPopup.setOnClickListener {
                 setPanelVisibility(
                     panelItemInvisible,
-                    defaultColors,
                     bindingVisible.ivArrowPopup,
                     bindingVisible.tvPanelItem,
                     bindingVisible.ivPanelItem,
@@ -118,7 +125,6 @@ class MainActivity : AppCompatActivity() {
             bindingVisible.tvPanelItem.setOnClickListener {
                 setPanelVisibility(
                     panelItemInvisible,
-                    defaultColors,
                     bindingVisible.ivArrowPopup,
                     bindingVisible.tvPanelItem,
                     bindingVisible.ivPanelItem
@@ -145,6 +151,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
 
     private fun setFabScrollListener() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -238,7 +245,7 @@ class MainActivity : AppCompatActivity() {
             imageEye.visibility = View.VISIBLE
         } else {
             setPanelsOpacity(panelItemVisible, panelItemInvisible, OPACITY_FULL)
-            imageEye.visibility = View.INVISIBLE
+            imageEye.visibility = View.GONE
         }
     }
 
@@ -261,7 +268,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPanelVisibility(
         panelItemInvisible: ConstraintLayout,
-        defaultColors: ColorStateList,
         popupArrow: ImageView,
         tvPanelItem: TextView,
         ivPanelItem: ImageView,
@@ -269,13 +275,17 @@ class MainActivity : AppCompatActivity() {
         if (panelItemInvisible.visibility == View.GONE) {
             panelItemInvisible.visibility = View.VISIBLE
             popupArrow.setImageResource(R.drawable.ic_arrow_up)
-            tvPanelItem.setTextColor(Color.GREEN)
+            val greenColor = ContextCompat.getColor(this, R.color.primaryLightColor)
+            tvPanelItem.setTextColor(greenColor)
             tvPanelItem.typeface = Typeface.DEFAULT_BOLD
+            ivPanelItem.setColorFilter(greenColor)
         } else {
             panelItemInvisible.visibility = View.GONE
             popupArrow.setImageResource(R.drawable.ic_arrow_down)
-            tvPanelItem.setTextColor(defaultColors)
+            val defaultColor = ContextCompat.getColor(this, R.color.primaryTextColor)
+            tvPanelItem.setTextColor(defaultColor)
             tvPanelItem.typeface = Typeface.DEFAULT
+            ivPanelItem.setColorFilter(defaultColor)
         }
     }
 
@@ -299,6 +309,7 @@ class MainActivity : AppCompatActivity() {
         val materialCardView = MaterialCardView(this)
         return materialCardView.apply {
             layoutParams = cardViewLayoutParams
+            radius = 0F
         }
     }
 
