@@ -43,6 +43,18 @@
         app:layout_constraintStart_toEndOf="@+id/btn_find_item"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btn_drag_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/secondaryColor"
+        android:src="@drawable/drag_button_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sw_panel_bottom"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/sw_panel_bottom"
         android:layout_width="wrap_content"

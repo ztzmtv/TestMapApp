@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -53,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     private fun setBtnAddItemClickListener() {
         binding.includeLayout.btnAddItem.setOnClickListener {
             viewModel.addDefaultItem()
-            Log.d("MainActivity", "OK")
         }
     }
 
@@ -70,13 +70,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.closeDrawer(GravityCompat.END);
+                drawerLayout.closeDrawer(GravityCompat.END)
             } else {
-                drawerLayout.openDrawer(GravityCompat.END);
+                drawerLayout.openDrawer(GravityCompat.END)
             }
-            return true;
+            return true
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
     private fun dynamicallyCreateViews(
@@ -95,15 +95,7 @@ class MainActivity : AppCompatActivity() {
             val linearLayoutContainer = generateLinearLayoutContainer()
             val materialCardView = generateCardView()
 
-            groupName?.let {
-                if (item.group != it) {
-                    val groupDivider = GroupDividerBinding.inflate(layoutInflater)
-                    groupDivider.tvGroupName.text = groupName ?: "Без названия"
-                    linearLayoutContainer.addView(groupDivider.root)
-                }
-            }
-            groupName = item.group
-
+            generateGroupDivider(groupName, item, linearLayoutContainer)
 
             //set views to containers
             linearLayoutContainer.addView(panelItemVisible)
@@ -152,6 +144,22 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+    }
+
+    private fun generateGroupDivider(
+        groupName: String?,
+        item: Item,
+        linearLayoutContainer: LinearLayout
+    ) {
+        var groupName1 = groupName
+        groupName1?.let {
+            if (item.group != it) {
+                val groupDivider = GroupDividerBinding.inflate(layoutInflater)
+                groupDivider.tvGroupName.text = groupName1 ?: "Без названия"
+                linearLayoutContainer.addView(groupDivider.root)
+            }
+        }
+        groupName1 = item.group
     }
 
     private fun setFabScrollListener() {
