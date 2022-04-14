@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mapapp.R
 import com.example.mapapp.databinding.PanelItemBinding
 
 import com.example.mapapp.domain.entity.Item
@@ -25,21 +26,30 @@ class PanelItemAdapter(
 
     override fun onBindViewHolder(holder: PanelItemViewHolder, position: Int) {
         val item = list[position]
-        holder.binding.tvPanelItem.text = list[position].text
-        holder.binding.clInvisiblePart.visibility = if (item.isExpanded) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        with(holder.binding) {
+            tvPanelItem.text = item.text
+            ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
+            swPanelItem.isChecked = item.isChecked
+            panelSlider.value = item.opacity
+            clInvisiblePart.visibility = if (item.isExpanded) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
 
-        holder.binding.ivArrowPopup.setOnClickListener {
-            item.isExpanded = !(item.isExpanded)
-            notifyItemChanged(position)
+            ivArrowPopup.setOnClickListener {
+                item.isExpanded = !(item.isExpanded)
+                notifyItemChanged(position)
+            }
         }
 
     }
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    companion object {
+        private const val DEFAULT_IMAGE_RES = R.drawable.polygon
     }
 }
