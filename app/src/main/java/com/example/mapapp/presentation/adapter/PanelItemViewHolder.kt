@@ -1,11 +1,8 @@
 package com.example.mapapp.presentation.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.databinding.ViewDataBinding
-import com.example.mapapp.databinding.PanelItemVisibleBinding
+import com.example.mapapp.databinding.PanelItemBinding
 
-class PanelItemViewHolder(var binding: PanelItemVisibleBinding) :
+class PanelItemViewHolder(var binding: PanelItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-
-
 }

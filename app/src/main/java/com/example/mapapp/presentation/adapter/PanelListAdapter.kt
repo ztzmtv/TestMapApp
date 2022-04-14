@@ -2,12 +2,9 @@ package com.example.mapapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.example.mapapp.R
-import com.example.mapapp.databinding.ActivityMainBinding
-import com.example.mapapp.databinding.PanelItemVisibleBinding
+import com.example.mapapp.databinding.PanelItemBinding
 import com.example.mapapp.domain.entity.Item
 
 class PanelListAdapter :
@@ -18,8 +15,8 @@ class PanelListAdapter :
 //            SHOP_ITEM_DISABLED -> R.layout.item_shop_disabled
 //            else -> throw RuntimeException("Unknown view type: $viewType")
 //        }
-        val layout = R.layout.panel_item_visible
-        val binding = PanelItemVisibleBinding.inflate(
+        val layout = R.layout.panel_item
+        val binding = PanelItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false

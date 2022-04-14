@@ -6,12 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
-import com.example.mapapp.databinding.PanelItemInvisibleBinding
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
-import com.example.mapapp.presentation.adapter.PanelListAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,20 +25,11 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = layoutManager
 
         viewModel.sortedItemsList.observe(this) {
-            val panelItemAdapter = PanelItemAdapter(it, this)
-
+            val panelItemAdapter = PanelItemAdapter(it)
             panelItemAdapter.onDetailsClickListener = {
-//                val b = PanelItemInvisibleBinding.inflate(layoutInflater)
-//                layoutManager.addView(b.root)
+//TODO()
             }
             rv.adapter = panelItemAdapter
         }
-    }
-
-    companion object {
-        private const val OPACITY_FULL = 1.0f
-        private const val OPACITY_HALF = 0.5f
-        private const val PERCENTS_MULTIPLIER = 100
-        private const val DEFAULT_EMPTY_IMAGE_RES = R.drawable.ic_launcher_background
     }
 }
