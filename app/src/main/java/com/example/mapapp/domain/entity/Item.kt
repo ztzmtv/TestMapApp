@@ -8,7 +8,8 @@ data class Item(
     var group: String? = null,
     var isChecked: Boolean = DEFAULT_IS_CHECK,
     var isVisible: Boolean = DEFAULT_IS_VISIBLE,
-    var opacity: Float = DEFAULT_OPACITY
+    var opacity: Float = DEFAULT_OPACITY,
+    var isExpanded: Boolean = DEFAULT_EXPANDED
 
 ) {
     companion object {
@@ -16,5 +17,6 @@ data class Item(
         private const val DEFAULT_IS_CHECK = true
         private const val DEFAULT_IS_VISIBLE = true
         private const val DEFAULT_OPACITY = 1.0f
+        private const val DEFAULT_EXPANDED = false
     }
 }

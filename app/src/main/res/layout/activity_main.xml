@@ -35,25 +35,12 @@
                 android:background="@color/white"
                 android:orientation="horizontal" />
 
-            <ScrollView
-                android:id="@+id/scroll_view"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab_layout">
+                android:layout_marginBottom="70dp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/primaryColor"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
         <include

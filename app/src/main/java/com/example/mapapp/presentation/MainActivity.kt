@@ -1,35 +1,17 @@
 package com.example.mapapp.presentation
 
-import android.annotation.SuppressLint
-import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
-import com.example.mapapp.databinding.GroupDividerBinding
 import com.example.mapapp.databinding.PanelItemInvisibleBinding
-import com.example.mapapp.databinding.PanelItemVisibleBinding
-import com.example.mapapp.domain.entity.Item
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.slider.Slider
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.mapapp.presentation.adapter.PanelItemAdapter
+import com.example.mapapp.presentation.adapter.PanelListAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,10 +24,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val rv = binding.rvPanel
+        rv.layoutManager = layoutManager
+
         viewModel.sortedItemsList.observe(this) {
+            val panelItemAdapter = PanelItemAdapter(it, this)
 
+            panelItemAdapter.onDetailsClickListener = {
+//                val b = PanelItemInvisibleBinding.inflate(layoutInflater)
+//                layoutManager.addView(b.root)
+            }
+            rv.adapter = panelItemAdapter
         }
-
     }
 
     companion object {
