@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val rv = binding.rvPanel
         rv.layoutManager = layoutManager
-
+        val panelItemAdapter = PanelItemAdapter()
+        rv.adapter = panelItemAdapter
         viewModel.sortedItemsList.observe(this) {
-            val panelItemAdapter = PanelItemAdapter(it)
-            panelItemAdapter.onDetailsClickListener = {
-//TODO()
-            }
-            rv.adapter = panelItemAdapter
+            panelItemAdapter.submitList(it)
+        }
+        binding.includeLayout.btnAddItem.setOnClickListener {
+            viewModel.addDefaultItem()
         }
     }
 

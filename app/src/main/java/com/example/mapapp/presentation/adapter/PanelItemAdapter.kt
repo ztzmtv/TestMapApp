@@ -3,15 +3,12 @@ package com.example.mapapp.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.example.mapapp.R
 import com.example.mapapp.databinding.PanelItemBinding
-
 import com.example.mapapp.domain.entity.Item
 
-class PanelItemAdapter(
-    private val list: List<Item>
-) : RecyclerView.Adapter<PanelItemViewHolder>() {
+class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
     var onDetailsClickListener: ((position: Int) -> Unit)? = null
 
 
@@ -25,7 +22,7 @@ class PanelItemAdapter(
     }
 
     override fun onBindViewHolder(holder: PanelItemViewHolder, position: Int) {
-        val item = list[position]
+        val item = getItem(position)
         with(holder.binding) {
             tvPanelItem.text = item.text
             swPanelItem.isChecked = item.isChecked
@@ -42,11 +39,6 @@ class PanelItemAdapter(
                 notifyItemChanged(position)
             }
         }
-
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
     }
 
     companion object {
