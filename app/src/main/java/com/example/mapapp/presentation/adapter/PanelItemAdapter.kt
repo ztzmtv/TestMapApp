@@ -28,9 +28,9 @@ class PanelItemAdapter(
         val item = list[position]
         with(holder.binding) {
             tvPanelItem.text = item.text
-            ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
             swPanelItem.isChecked = item.isChecked
             panelSlider.value = item.opacity
+            ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
             clInvisiblePart.visibility = if (item.isExpanded) {
                 View.VISIBLE
             } else {
