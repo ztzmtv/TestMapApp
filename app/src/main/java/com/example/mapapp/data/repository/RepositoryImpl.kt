@@ -13,8 +13,8 @@ object RepositoryImpl : Repository {
     private var panelItemsList = mutableListOf<Item>()
 
     init {
-        panelItemsList  = getTemplateList()
-        panelItemsListLiveData.value = panelItemsList
+        panelItemsList = getTemplateList()
+        updateList()
     }
 
     override fun getItemsList(): LiveData<List<Item>> {
@@ -43,14 +43,15 @@ object RepositoryImpl : Repository {
     }
 
     private fun editItem(item: Item) {
-        val index = getItemIndex(item)
-        index?.let { panelItemsList.set(it, item) }
-        updateList()
-        Log.d("RepositoryImpl_TAG", "$panelItemsList")
+//        val index = getItemIndex(item)
+//        index?.let { panelItemsList.set(it, item) }
+//        updateList()
+//        Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
     private fun updateList() {
-        panelItemsListLiveData.value = panelItemsList
+        panelItemsList.sortedBy { it.id }
+        panelItemsListLiveData.value = panelItemsList.toList()
     }
 
     private fun getTemplateList(): MutableList<Item> {

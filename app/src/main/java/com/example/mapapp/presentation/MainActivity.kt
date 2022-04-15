@@ -49,12 +49,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.closeDrawer(GravityCompat.END);
+                drawerLayout.closeDrawer(GravityCompat.END)
             } else {
-                drawerLayout.openDrawer(GravityCompat.END);
+                drawerLayout.openDrawer(GravityCompat.END)
             }
-            return true;
+            return true
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 }
