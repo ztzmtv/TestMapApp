@@ -9,7 +9,7 @@ import com.example.mapapp.databinding.PanelItemBinding
 import com.example.mapapp.domain.entity.Item
 
 class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
-    var onDetailsClickListener: ((position: Int) -> Unit)? = null
+    var onDetailsClickListener: ((item: Item) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PanelItemViewHolder {
@@ -28,17 +28,18 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
             swPanelItem.isChecked = item.isChecked
             panelSlider.value = item.opacity
             ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
-            clInvisiblePart.visibility = if (item.isExpanded) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-
+            clInvisiblePart.visibility = setVisibility(item)
             ivArrowPopup.setOnClickListener {
-                item.isExpanded = !(item.isExpanded)
+                onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
             }
         }
+    }
+
+    private fun setVisibility(item: Item) = if (item.isExpanded) {
+        View.VISIBLE
+    } else {
+        View.GONE
     }
 
     companion object {

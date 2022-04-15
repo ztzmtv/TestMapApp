@@ -1,6 +1,7 @@
 package com.example.mapapp.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -24,10 +25,15 @@ class MainActivity : AppCompatActivity() {
         setDrawerLayout()
         setContentView(binding.root)
 
+
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val rv = binding.rvPanel
         rv.layoutManager = layoutManager
         val panelItemAdapter = PanelItemAdapter()
+        panelItemAdapter.onDetailsClickListener = {
+            log("$it")
+            it.isExpanded = !it.isExpanded
+        }
         rv.adapter = panelItemAdapter
         viewModel.itemsList.observe(this) {
             panelItemAdapter.submitList(it)
@@ -56,5 +62,12 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        private const val TAG = "MainActivity_TAG"
+        private fun log(string: String) {
+            Log.d(TAG, string)
+        }
     }
 }
