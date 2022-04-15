@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = layoutManager
         val panelItemAdapter = PanelItemAdapter()
         rv.adapter = panelItemAdapter
-        viewModel.sortedItemsList.observe(this) {
+        viewModel.itemsList.observe(this) {
             panelItemAdapter.submitList(it)
         }
         binding.includeLayout.btnAddItem.setOnClickListener {

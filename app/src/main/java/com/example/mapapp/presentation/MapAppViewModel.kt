@@ -1,8 +1,6 @@
 package com.example.mapapp.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.mapapp.data.repository.RepositoryImpl
 import com.example.mapapp.domain.AddItemUseCase
@@ -17,20 +15,8 @@ class MapAppViewModel : ViewModel() {
     private val changeItemOpacityUseCase = ChangeItemOpacityUseCase(repository)
     private val setItemOpacityUseCase = SetItemOpacityUseCase(repository)
     private val getItemsListUseCase = GetItemsListUseCase(repository)
-    private val _itemsList = MutableLiveData<List<Item>>()
 
-    val itemsList: LiveData<List<Item>>
-        get() = _itemsList
-
-    //livedata with list sorted by group
-    val sortedItemsList: LiveData<List<Item>> =
-        Transformations.map(_itemsList) { list ->
-            list.sortedByDescending { item -> item.group }
-        }
-
-    init {
-        _itemsList.value = getItemsListUseCase()
-    }
+    val itemsList = getItemsListUseCase.invoke()
 
     fun visibilityChange(item: Item, value: Boolean) {
         setItemOpacityUseCase(item, value)
@@ -42,6 +28,13 @@ class MapAppViewModel : ViewModel() {
 
     fun addDefaultItem() {
         addItemUseCase(repository.DEFAULT_ITEM)
-        _itemsList.value = getItemsListUseCase()
+        log("addDefaultItem()")
+    }
+
+    companion object {
+        private const val TAG = "MapAppViewModel_TAG"
+        private fun log(string: String) {
+            Log.d(TAG, string)
+        }
     }
 }

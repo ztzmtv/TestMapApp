@@ -13,7 +13,7 @@ data class Item(
 
 ) {
     companion object {
-        private const val DEFAULT_NO_ID = -1
+        const val DEFAULT_NO_ID = -1
         private const val DEFAULT_IS_CHECK = true
         private const val DEFAULT_IS_VISIBLE = true
         private const val DEFAULT_OPACITY = 1.0f
