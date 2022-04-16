@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
@@ -22,28 +21,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setDrawerLayout()
+        setupDrawerLayout()
         setContentView(binding.root)
 
+        setupRecyclerView()
+        setupBottomPanelListeners()
+    }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        val rv = binding.rvPanel
-        rv.layoutManager = layoutManager
-        val panelItemAdapter = PanelItemAdapter()
-        panelItemAdapter.onDetailsClickListener = {
-            log("$it")
-            it.isExpanded = !it.isExpanded
-        }
-        rv.adapter = panelItemAdapter
-        viewModel.itemsList.observe(this) {
-            panelItemAdapter.submitList(it)
-        }
+    private fun setupBottomPanelListeners() {
         binding.includeLayout.btnAddItem.setOnClickListener {
             viewModel.addDefaultItem()
         }
     }
 
-    private fun setDrawerLayout() {
+    private fun setupRecyclerView() {
+        val panelRecyclerView = binding.rvPanel
+        val panelItemAdapter = PanelItemAdapter()
+        panelItemAdapter.onDetailsClickListener = {
+            log("$it")
+            it.isExpanded = !it.isExpanded
+        }
+        panelRecyclerView.adapter = panelItemAdapter
+        viewModel.itemsList.observe(this) {
+            panelItemAdapter.submitList(it)
+        }
+    }
+
+    private fun setupDrawerLayout() {
         drawerLayout = binding.drawerLayout
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
