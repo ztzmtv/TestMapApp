@@ -27,7 +27,7 @@ class MapAppViewModel : ViewModel() {
     }
 
     fun addDefaultItem() {
-        addItemUseCase(repository.DEFAULT_ITEM)
+        addItemUseCase(repository.getDefaultItem())
         log("addDefaultItem()")
     }
 

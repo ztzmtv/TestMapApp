@@ -43,15 +43,16 @@ object RepositoryImpl : Repository {
     }
 
     private fun editItem(item: Item) {
-//        val index = getItemIndex(item)
-//        index?.let { panelItemsList.set(it, item) }
-//        updateList()
-//        Log.d("RepositoryImpl_TAG", "$panelItemsList")
+        val index = getItemIndex(item)
+        index?.let { panelItemsList.set(it, item) }
+        updateList()
+        Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
     private fun updateList() {
-        panelItemsList.sortedBy { it.id }
+//        panelItemsList.sortedBy { it.id }
         panelItemsListLiveData.value = panelItemsList.toList()
+        Log.d("RepositoryImpl_TAG", "updateList")
     }
 
     private fun getTemplateList(): MutableList<Item> {
@@ -145,10 +146,12 @@ object RepositoryImpl : Repository {
         return null
     }
 
-    // value adding by default
-    var DEFAULT_ITEM = Item(
-        id = Item.DEFAULT_NO_ID,
-        imageResId = R.drawable.polygon,
-        text = "Маска облачности от 02.07.2021",
-    )
+    fun getDefaultItem(): Item {
+        return Item(
+            imageResId = R.drawable.polygon,
+            text = "Маска облачности от 02.07.2021",
+            isChecked = false
+        )
+    }
+
 }
