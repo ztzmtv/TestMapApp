@@ -29,6 +29,7 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
             panelSlider.value = item.opacity
             ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
             clInvisiblePart.visibility = setVisibility(item)
+            llGroupDivider.visibility = View.GONE
             ivArrowPopup.setOnClickListener {
                 onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
