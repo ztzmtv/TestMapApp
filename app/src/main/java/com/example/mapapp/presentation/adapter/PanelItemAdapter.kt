@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.mapapp.R
 import com.example.mapapp.databinding.PanelItemBinding
 import com.example.mapapp.domain.entity.Item
+import com.example.mapapp.helper.PanelSliderTouchListener
+import com.google.android.material.slider.Slider
 
 class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
     var onDetailsClickListener: ((item: Item) -> Unit)? = null
     var onSwitchChangeListener: ((item: Item) -> Unit)? = null
-
+    var onSliderTouchListener: ((slider: Slider) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PanelItemViewHolder {
         val view = PanelItemBinding.inflate(
@@ -40,12 +42,22 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
             llGroupDivider.visibility = View.GONE
             swPanelItem.isChecked = item.isChecked
             ivEye.visibility = setVisibility(!item.isChecked)
-            swPanelItem.setOnCheckedChangeListener { _, isChecked ->
-                item.isChecked = isChecked
+            val opacity = setHalfOpacity(item.isChecked)
+            for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
+            panelSlider.addOnSliderTouchListener(
+                PanelSliderTouchListener {
+                    onSliderTouchListener?.invoke(it)
+                    for (i in 0 until root.childCount) root.getChildAt(i).alpha = it.value
+                }
+            )
+
+            swPanelItem.setOnCheckedChangeListener { _, isSwitchChecked ->
+                item.isChecked = isSwitchChecked
                 onSwitchChangeListener?.invoke(item)
+                swPanelItem.isChecked = item.isChecked
+                ivEye.visibility = setVisibility(!item.isChecked)
                 val opacity = setHalfOpacity(item.isChecked)
                 for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
-                ivEye.visibility = setVisibility(!item.isChecked)
             }
             tvPanelItem.setOnClickListener {
                 onDetailsClickListener?.invoke(item)

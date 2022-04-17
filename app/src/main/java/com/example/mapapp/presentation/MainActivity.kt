@@ -78,6 +78,9 @@ class MainActivity : AppCompatActivity() {
             log("$it")
             it.isExpanded = !it.isExpanded
         }
+        panelItemAdapter.onSliderTouchListener = {
+            TODO("Сделаь, чтобы при изменении item возвращалась LiveData из репозитория")
+        }
         panelRecyclerView.adapter = panelItemAdapter
         viewModel.itemsList.observe(this) {
             panelItemAdapter.submitList(it)
