@@ -3,6 +3,7 @@ package com.example.mapapp.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.example.mapapp.R
 import com.example.mapapp.databinding.PanelItemBinding
@@ -24,6 +25,13 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
     override fun onBindViewHolder(holder: PanelItemViewHolder, position: Int) {
         val item = getItem(position)
         with(holder.binding) {
+            val color = if (item.isExpanded) {
+                ContextCompat.getColor(tvPanelItem.context, R.color.primaryLightColor)
+            } else {
+                ContextCompat.getColor(tvPanelItem.context, R.color.primaryTextColor)
+            }
+            tvPanelItem.setTextColor(color)
+            ivPanelItem.setColorFilter(color)
             tvPanelItem.text = item.text
             swPanelItem.isChecked = item.isChecked
             panelSlider.value = item.opacity
