@@ -21,10 +21,13 @@ object RepositoryImpl : Repository {
         return panelItemsListLiveData
     }
 
-    override fun changeItemOpacity(item: Item, value: Float) {
-        item.opacity = value
-        editItem(item)
+    override fun changeItem(item: Item) {
+        val index = getItemIndex(item)
+        index?.let {
+            panelItemsList.set(it, item)
+        }
         updateList()
+        Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
     override fun setItemOpacity(item: Item, value: Boolean) {
@@ -42,11 +45,25 @@ object RepositoryImpl : Repository {
         Log.d("RepositoryImpl_TAG", "$this")
     }
 
-    private fun editItem(item: Item) {
-        val index = getItemIndex(item)
-        index?.let { panelItemsList.set(it, item) }
+    override fun filterItems(string: String) {
+        if (string.isNotEmpty()) {
+            panelItemsListLiveData.value = panelItemsList.filter {
+                it.text?.contains(string) ?: false
+            }
+        } else {
+            updateList()
+        }
+    }
+
+    override fun deleteLastItem() {
+        if (panelItemsList.isNotEmpty()) {
+            panelItemsList.removeLast()
+        }
         updateList()
-        Log.d("RepositoryImpl_TAG", "$panelItemsList")
+    }
+
+    private fun editItem(item: Item) {
+        // TODO("Редактирование")
     }
 
     private fun updateList() {

@@ -3,18 +3,17 @@ package com.example.mapapp.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.mapapp.data.repository.RepositoryImpl
-import com.example.mapapp.domain.AddItemUseCase
-import com.example.mapapp.domain.ChangeItemOpacityUseCase
-import com.example.mapapp.domain.GetItemsListUseCase
-import com.example.mapapp.domain.SetItemOpacityUseCase
+import com.example.mapapp.domain.*
 import com.example.mapapp.domain.entity.Item
 
 class MapAppViewModel : ViewModel() {
     private val repository = RepositoryImpl
     private val addItemUseCase = AddItemUseCase(repository)
-    private val changeItemOpacityUseCase = ChangeItemOpacityUseCase(repository)
+    private val changeItemUseCase = ChangeItemUseCase(repository)
     private val setItemOpacityUseCase = SetItemOpacityUseCase(repository)
     private val getItemsListUseCase = GetItemsListUseCase(repository)
+    private val filterItemsUseCase = FilterItemsUseCase(repository)
+    private val deleteLastItemUseCase=DeleteLastItemUseCase(repository)
 
     val itemsList = getItemsListUseCase.invoke()
 
@@ -22,9 +21,18 @@ class MapAppViewModel : ViewModel() {
         setItemOpacityUseCase(item, value)
     }
 
-    fun opacityChange(item: Item, value: Float) {
-        changeItemOpacityUseCase(item, value)
+    fun opacityChange(item: Item) {
+        changeItemUseCase(item)
     }
+
+    fun findItems(string: String) {
+        filterItemsUseCase(string)
+    }
+
+    fun deleteLastItem(){
+        deleteLastItemUseCase()
+    }
+
 
     fun addDefaultItem() {
         addItemUseCase(repository.getDefaultItem())

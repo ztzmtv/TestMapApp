@@ -3,6 +3,7 @@ package com.example.mapapp.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -10,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
+import com.example.mapapp.helper.AppTextWatcher
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
 
 
@@ -24,13 +26,31 @@ class MainActivity : AppCompatActivity() {
         setupDrawerLayout()
         setContentView(binding.root)
 
+        binding.etFindText.addTextChangedListener(
+            AppTextWatcher {
+                val string = binding.etFindText.text.toString()
+                viewModel.findItems(string)
+            }
+        )
         setupRecyclerView()
         setupBottomPanelListeners()
     }
 
     private fun setupBottomPanelListeners() {
-        binding.includeLayout.btnAddItem.setOnClickListener {
-            viewModel.addDefaultItem()
+        with(binding) {
+            includeLayout.btnAddItem.setOnClickListener {
+                viewModel.addDefaultItem()
+            }
+            includeLayout.btnFindItem.setOnClickListener {
+                if (tilFindPanel.visibility == View.GONE) {
+                    tilFindPanel.visibility = View.VISIBLE
+                } else {
+                    tilFindPanel.visibility = View.GONE
+                }
+            }
+            includeLayout.btnDelete.setOnClickListener {
+                viewModel.deleteLastItem()
+            }
         }
     }
 
