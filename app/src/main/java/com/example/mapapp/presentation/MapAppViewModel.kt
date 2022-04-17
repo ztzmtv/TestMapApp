@@ -17,11 +17,8 @@ class MapAppViewModel : ViewModel() {
 
     val itemsList = getItemsListUseCase.invoke()
 
-    fun visibilityChange(item: Item, value: Boolean) {
-        setItemOpacityUseCase(item, value)
-    }
 
-    fun opacityChange(item: Item) {
+    fun changeItem(item: Item) {
         changeItemUseCase(item)
     }
 

@@ -16,4 +16,5 @@
     <string name="content_description_find_item">Find Item</string>
     <string name="content_description_delete_item">Delete Item</string>
     <string name="content_description_drag_items">Drag items</string>
+    <string name="string_panel_image">Panel Image</string>
 </resources>

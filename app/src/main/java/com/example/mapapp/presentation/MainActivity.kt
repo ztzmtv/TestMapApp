@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.helper.AppTextWatcher
@@ -20,20 +21,33 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by lazy { ViewModelProvider(this)[MapAppViewModel::class.java] }
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private lateinit var panelRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupDrawerLayout()
         setContentView(binding.root)
 
+        setupRecyclerView()
+        setupBottomPanelListeners()
+        setFabClickListener()
+        setEtFindTextListener()
+    }
+
+    private fun setEtFindTextListener() {
         binding.etFindText.addTextChangedListener(
             AppTextWatcher {
                 val string = binding.etFindText.text.toString()
                 viewModel.findItems(string)
             }
         )
-        setupRecyclerView()
-        setupBottomPanelListeners()
+    }
+
+    private fun setFabClickListener() {
+        binding.fab.setOnClickListener {
+            val itemCount = panelRecyclerView.adapter?.itemCount ?: 1
+            panelRecyclerView.smoothScrollToPosition(itemCount)
+        }
     }
 
     private fun setupBottomPanelListeners() {
@@ -55,8 +69,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val panelRecyclerView = binding.rvPanel
+        panelRecyclerView = binding.rvPanel
         val panelItemAdapter = PanelItemAdapter()
+        panelItemAdapter.onSwitchChangeListener = {
+            viewModel.changeItem(it)
+        }
         panelItemAdapter.onDetailsClickListener = {
             log("$it")
             it.isExpanded = !it.isExpanded
@@ -65,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.itemsList.observe(this) {
             panelItemAdapter.submitList(it)
         }
+
     }
 
     private fun setupDrawerLayout() {

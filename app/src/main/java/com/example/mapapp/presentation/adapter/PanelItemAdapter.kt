@@ -11,6 +11,7 @@ import com.example.mapapp.domain.entity.Item
 
 class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
     var onDetailsClickListener: ((item: Item) -> Unit)? = null
+    var onSwitchChangeListener: ((item: Item) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PanelItemViewHolder {
@@ -30,14 +31,26 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
             } else {
                 ContextCompat.getColor(tvPanelItem.context, R.color.primaryTextColor)
             }
-            tvPanelItem.setTextColor(color)
-            ivPanelItem.setColorFilter(color)
             tvPanelItem.text = item.text
-            swPanelItem.isChecked = item.isChecked
+            tvPanelItem.setTextColor(color)
             panelSlider.value = item.opacity
+            ivPanelItem.setColorFilter(color)
             ivPanelItem.setImageResource(item.imageResId ?: DEFAULT_IMAGE_RES)
-            clInvisiblePart.visibility = setVisibility(item)
+            clInvisiblePart.visibility = setVisibility(item.isExpanded)
             llGroupDivider.visibility = View.GONE
+            swPanelItem.isChecked = item.isChecked
+            ivEye.visibility = setVisibility(!item.isChecked)
+            swPanelItem.setOnCheckedChangeListener { _, isChecked ->
+                item.isChecked = isChecked
+                onSwitchChangeListener?.invoke(item)
+                val opacity = setHalfOpacity(item.isChecked)
+                for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
+                ivEye.visibility = setVisibility(!item.isChecked)
+            }
+            tvPanelItem.setOnClickListener {
+                onDetailsClickListener?.invoke(item)
+                notifyItemChanged(position)
+            }
             ivArrowPopup.setOnClickListener {
                 onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
@@ -45,13 +58,21 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
         }
     }
 
-    private fun setVisibility(item: Item) = if (item.isExpanded) {
+    private fun setVisibility(isTrue: Boolean) = if (isTrue) {
         View.VISIBLE
     } else {
         View.GONE
     }
 
+    private fun setHalfOpacity(isTrue: Boolean) = if (isTrue) {
+        OPACITY_FULL
+    } else {
+        OPACITY_HALF
+    }
+
     companion object {
         private const val DEFAULT_IMAGE_RES = R.drawable.polygon
+        private const val OPACITY_FULL = 1.0F
+        private const val OPACITY_HALF = 0.65F
     }
 }
