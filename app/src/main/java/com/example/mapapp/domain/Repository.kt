@@ -17,4 +17,8 @@ interface Repository {
 
     fun deleteLastItem()
 
+    fun moveItem(from: Int, to: Int)
+
+    fun deleteItem(item: Item)
+
 }

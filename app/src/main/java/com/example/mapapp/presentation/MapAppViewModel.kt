@@ -17,11 +17,9 @@ class MapAppViewModel : ViewModel() {
 
     val itemsList = getItemsListUseCase.invoke()
 
-//    fun changeSwitch(item: Item, value: Boolean) {
-//        item.isChecked = value
-//        changeItem(item)
-//        itemsList.value
-//    }
+    fun moveItem(from: Int, to: Int) {
+        repository.moveItem(from, to)
+    }
 
     fun changeItem(item: Item) {
         changeItemUseCase(item)
@@ -33,6 +31,10 @@ class MapAppViewModel : ViewModel() {
 
     fun deleteLastItem() {
         deleteLastItemUseCase()
+    }
+
+    fun deleteItem(item: Item) {
+        repository.deleteItem(item)
     }
 
 

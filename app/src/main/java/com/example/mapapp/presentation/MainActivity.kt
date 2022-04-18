@@ -75,17 +75,7 @@ class MainActivity : AppCompatActivity() {
         panelRecyclerView = binding.rvPanel
         val panelItemAdapter = PanelItemAdapter()
         with(panelItemAdapter) {
-            onSwitchChangeListener = {
-                viewModel.changeItem(it)
-            }
-            onDetailsClickListener = {
-                log("$it")
-                it.isExpanded = !it.isExpanded
-            }
-            onSliderTouchListener = {
-                viewModel.changeItem(it)
-            }
-
+////////////////////////////////////////////////////////////////////////////////////////////
             val callback = object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -98,24 +88,36 @@ class MainActivity : AppCompatActivity() {
                     val adapter = recyclerView.adapter as PanelItemAdapter
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
+                    log("$fromPos $toPos")
+                    // viewModel.moveItem(fromPos, toPos)
+                    log("${adapter.currentList}")
                     adapter.notifyItemMoved(fromPos, toPos)
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val item = panelItemAdapter.currentList[viewHolder.adapterPosition]
-                    viewModel.deleteLastItem() //TODO("Изменить на удаление определенного item ")
-                    notifyItemRemoved(direction)
-
+                    viewModel.deleteItem(item)
                 }
             }
             val itemTouchHelper = ItemTouchHelper(callback)
             itemTouchHelper.attachToRecyclerView(panelRecyclerView)
+
+            onSwitchChangeListener = {
+                viewModel.changeItem(it)
+            }
+            onDetailsClickListener = {
+                log("$it")
+//                it.isExpanded = !it.isExpanded
+            }
+            onSliderTouchListener = {
+                viewModel.changeItem(it)
+            }
         }
 
         panelRecyclerView.adapter = panelItemAdapter
         viewModel.itemsList.observe(this) { itemsList ->
-            panelItemAdapter.submitList(itemsList)
+            panelItemAdapter.submitList(itemsList.toMutableList())
             setBottomSwitchValue(itemsList)
         }
     }

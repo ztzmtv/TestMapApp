@@ -1,5 +1,6 @@
 package com.example.mapapp.presentation.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
     }
 
     override fun onBindViewHolder(holder: PanelItemViewHolder, position: Int) {
-        var item = getItem(position)
+        var item = currentList[holder.adapterPosition]
 
         with(holder.binding) {
             val color = if (item.isExpanded) {
@@ -53,7 +54,8 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
             )
 
             swPanelItem.setOnCheckedChangeListener { _, isSwitchChecked ->
-                item = getItem(position)
+//                item = getItem(holder.adapterPosition)
+
                 item.isChecked = isSwitchChecked
                 onSwitchChangeListener?.invoke(item)
                 swPanelItem.isChecked = item.isChecked
@@ -62,11 +64,18 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
                 for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
             }
             tvPanelItem.setOnClickListener {
+//                item = getItem(holder.adapterPosition)
                 onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
             }
             ivArrowPopup.setOnClickListener {
-//                val a = this@PanelItemAdapter.getItemId(holder.adapterPosition)
+                item = currentList[holder.adapterPosition]
+                item.isExpanded=!item.isExpanded
+                log("$currentList")
+                log("adapterPosition ${holder.adapterPosition}")
+                log("layoutPosition ${holder.layoutPosition}")
+                log("itemId ${holder.itemId}")
+                log("position ${position}")
 
                 onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
@@ -90,5 +99,9 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
         private const val DEFAULT_IMAGE_RES = R.drawable.polygon
         private const val OPACITY_FULL = 1.0F
         private const val OPACITY_HALF = 0.65F
+        private const val TAG = "PanelItemAdapter_TAG"
+        private fun log(string: String) {
+            Log.d(TAG, string)
+        }
     }
 }

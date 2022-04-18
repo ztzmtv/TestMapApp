@@ -18,7 +18,6 @@ object RepositoryImpl : Repository {
     }
 
 
-
     override fun getItemsList(): LiveData<List<Item>> {
         return panelItemsListLiveData
     }
@@ -57,10 +56,23 @@ object RepositoryImpl : Repository {
         }
     }
 
+
     override fun deleteLastItem() {
         if (panelItemsList.isNotEmpty()) {
             panelItemsList.removeLast()
         }
+        updateList()
+    }
+
+    override fun moveItem(from: Int, to: Int) {
+        val item = panelItemsList[from]
+        panelItemsList.removeAt(from)
+        panelItemsList.add(to, item)
+        updateList()
+    }
+
+    override fun deleteItem(item: Item) {
+        panelItemsList.remove(item)
         updateList()
     }
 
@@ -69,7 +81,6 @@ object RepositoryImpl : Repository {
     }
 
     private fun updateList() {
-//        panelItemsList.sortedBy { it.id }
         panelItemsListLiveData.value = panelItemsList.toList()
         Log.d("RepositoryImpl_TAG", "updateList")
     }
