@@ -17,6 +17,8 @@ object RepositoryImpl : Repository {
         updateList()
     }
 
+
+
     override fun getItemsList(): LiveData<List<Item>> {
         return panelItemsListLiveData
     }

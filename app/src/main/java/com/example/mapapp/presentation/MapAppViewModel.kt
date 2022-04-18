@@ -13,10 +13,15 @@ class MapAppViewModel : ViewModel() {
     private val setItemOpacityUseCase = SetItemOpacityUseCase(repository)
     private val getItemsListUseCase = GetItemsListUseCase(repository)
     private val filterItemsUseCase = FilterItemsUseCase(repository)
-    private val deleteLastItemUseCase=DeleteLastItemUseCase(repository)
+    private val deleteLastItemUseCase = DeleteLastItemUseCase(repository)
 
     val itemsList = getItemsListUseCase.invoke()
 
+//    fun changeSwitch(item: Item, value: Boolean) {
+//        item.isChecked = value
+//        changeItem(item)
+//        itemsList.value
+//    }
 
     fun changeItem(item: Item) {
         changeItemUseCase(item)
@@ -26,7 +31,7 @@ class MapAppViewModel : ViewModel() {
         filterItemsUseCase(string)
     }
 
-    fun deleteLastItem(){
+    fun deleteLastItem() {
         deleteLastItemUseCase()
     }
 

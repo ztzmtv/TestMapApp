@@ -9,9 +9,8 @@ import com.example.mapapp.R
 import com.example.mapapp.databinding.PanelItemBinding
 import com.example.mapapp.domain.entity.Item
 import com.example.mapapp.helper.PanelSliderTouchListener
-import com.google.android.material.slider.Slider
 
-class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
+class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
     var onDetailsClickListener: ((item: Item) -> Unit)? = null
     var onSwitchChangeListener: ((item: Item) -> Unit)? = null
     var onSliderTouchListener: ((item: Item) -> Unit)? = null

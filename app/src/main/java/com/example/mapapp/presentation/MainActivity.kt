@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
+import com.example.mapapp.domain.entity.Item
 import com.example.mapapp.helper.AppTextWatcher
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomPanelListeners()
         setFabClickListener()
         setEtFindTextListener()
+
     }
 
     private fun setEtFindTextListener() {
@@ -84,10 +86,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
         panelRecyclerView.adapter = panelItemAdapter
-        viewModel.itemsList.observe(this) {
-            panelItemAdapter.submitList(it)
+        viewModel.itemsList.observe(this) { itemsList ->
+            panelItemAdapter.submitList(itemsList)
+            setBottomSwitchValue(itemsList)
         }
+    }
 
+    private fun setBottomSwitchValue(itemsList: List<Item>) {
+        val isCheckedList = mutableListOf<Boolean>()
+        for (item in itemsList) {
+            isCheckedList.add(item.isChecked)
+        }
+        val isCheckedItems = when {
+            isCheckedList.all { it } -> CHECKED_ALL_TRUE
+            isCheckedList.none { it } -> CHECKED_ALL_FALSE
+            else -> CHECKED_ALL_DIFF
+        }
+        binding.includeLayout.swPanelBottom.isChecked = when (isCheckedItems) {
+            CHECKED_ALL_TRUE -> true
+            CHECKED_ALL_FALSE -> false
+            else -> false //TODO("Придумать промежуточный вариант на switch")
+        }
     }
 
     private fun setupDrawerLayout() {
@@ -113,6 +132,10 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity_TAG"
+        private const val CHECKED_ALL_TRUE = 1
+        private const val CHECKED_ALL_FALSE = -1
+        private const val CHECKED_ALL_DIFF = 0
+
         private fun log(string: String) {
             Log.d(TAG, string)
         }
