@@ -25,7 +25,8 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
     }
 
     override fun onBindViewHolder(holder: PanelItemViewHolder, position: Int) {
-        val item = getItem(position)
+        var item = getItem(position)
+
         with(holder.binding) {
             val color = if (item.isExpanded) {
                 ContextCompat.getColor(tvPanelItem.context, R.color.primaryLightColor)
@@ -52,6 +53,7 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
             )
 
             swPanelItem.setOnCheckedChangeListener { _, isSwitchChecked ->
+                item = getItem(position)
                 item.isChecked = isSwitchChecked
                 onSwitchChangeListener?.invoke(item)
                 swPanelItem.isChecked = item.isChecked
@@ -64,6 +66,8 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
                 notifyItemChanged(position)
             }
             ivArrowPopup.setOnClickListener {
+//                val a = this@PanelItemAdapter.getItemId(holder.adapterPosition)
+
                 onDetailsClickListener?.invoke(item)
                 notifyItemChanged(position)
             }

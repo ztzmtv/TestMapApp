@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
@@ -84,7 +85,34 @@ class MainActivity : AppCompatActivity() {
             onSliderTouchListener = {
                 viewModel.changeItem(it)
             }
+
+            val callback = object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val adapter = recyclerView.adapter as PanelItemAdapter
+                    val fromPos = viewHolder.adapterPosition
+                    val toPos = target.adapterPosition
+                    adapter.notifyItemMoved(fromPos, toPos)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val item = panelItemAdapter.currentList[viewHolder.adapterPosition]
+                    viewModel.deleteLastItem() //TODO("Изменить на удаление определенного item ")
+                    notifyItemRemoved(direction)
+
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(callback)
+            itemTouchHelper.attachToRecyclerView(panelRecyclerView)
         }
+
         panelRecyclerView.adapter = panelItemAdapter
         viewModel.itemsList.observe(this) { itemsList ->
             panelItemAdapter.submitList(itemsList)
