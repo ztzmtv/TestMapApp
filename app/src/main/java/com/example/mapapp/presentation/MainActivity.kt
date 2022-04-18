@@ -71,15 +71,17 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         panelRecyclerView = binding.rvPanel
         val panelItemAdapter = PanelItemAdapter()
-        panelItemAdapter.onSwitchChangeListener = {
-            viewModel.changeItem(it)
-        }
-        panelItemAdapter.onDetailsClickListener = {
-            log("$it")
-            it.isExpanded = !it.isExpanded
-        }
-        panelItemAdapter.onSliderTouchListener = {
-            TODO("Сделаь, чтобы при изменении item возвращалась LiveData из репозитория")
+        with(panelItemAdapter) {
+            onSwitchChangeListener = {
+                viewModel.changeItem(it)
+            }
+            onDetailsClickListener = {
+                log("$it")
+                it.isExpanded = !it.isExpanded
+            }
+            onSliderTouchListener = {
+                viewModel.changeItem(it)
+            }
         }
         panelRecyclerView.adapter = panelItemAdapter
         viewModel.itemsList.observe(this) {

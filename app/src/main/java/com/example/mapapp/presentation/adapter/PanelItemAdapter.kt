@@ -14,7 +14,7 @@ import com.google.android.material.slider.Slider
 class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
     var onDetailsClickListener: ((item: Item) -> Unit)? = null
     var onSwitchChangeListener: ((item: Item) -> Unit)? = null
-    var onSliderTouchListener: ((slider: Slider) -> Unit)? = null
+    var onSliderTouchListener: ((item: Item) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PanelItemViewHolder {
         val view = PanelItemBinding.inflate(
@@ -46,7 +46,8 @@ class PanelItemAdapter() : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffC
             for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
             panelSlider.addOnSliderTouchListener(
                 PanelSliderTouchListener {
-                    onSliderTouchListener?.invoke(it)
+                    item.opacity = it.value
+                    onSliderTouchListener?.invoke(item)
                     for (i in 0 until root.childCount) root.getChildAt(i).alpha = it.value
                 }
             )
