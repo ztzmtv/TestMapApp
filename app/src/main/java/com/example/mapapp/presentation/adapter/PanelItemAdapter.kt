@@ -12,7 +12,7 @@ import com.example.mapapp.domain.entity.Item
 import com.example.mapapp.helper.PanelSliderTouchListener
 
 class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCallback()) {
-    var onDetailsClickListener: ((item: Item) -> Unit)? = null
+    var onDetailsClickListener: ((position: Int) -> Unit)? = null
     var onSwitchChangeListener: ((item: Item) -> Unit)? = null
     var onSliderTouchListener: ((item: Item) -> Unit)? = null
 
@@ -64,20 +64,11 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
                 for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
             }
             tvPanelItem.setOnClickListener {
-//                item = getItem(holder.adapterPosition)
-                onDetailsClickListener?.invoke(item)
+                onDetailsClickListener?.invoke(holder.adapterPosition)
                 notifyItemChanged(position)
             }
             ivArrowPopup.setOnClickListener {
-                item = currentList[holder.adapterPosition]
-                item.isExpanded=!item.isExpanded
-                log("$currentList")
-                log("adapterPosition ${holder.adapterPosition}")
-                log("layoutPosition ${holder.layoutPosition}")
-                log("itemId ${holder.itemId}")
-                log("position ${position}")
-
-                onDetailsClickListener?.invoke(item)
+                onDetailsClickListener?.invoke(holder.adapterPosition)
                 notifyItemChanged(position)
             }
         }

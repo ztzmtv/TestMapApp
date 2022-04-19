@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var panelRecyclerView: RecyclerView
+    private var isDragMode = true
+    private lateinit var callback: ItemTouchHelper.SimpleCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +70,9 @@ class MainActivity : AppCompatActivity() {
             includeLayout.btnDelete.setOnClickListener {
                 viewModel.deleteLastItem()
             }
+            includeLayout.btnDragItem.setOnClickListener {
+                isDragMode = !isDragMode
+            }
         }
     }
 
@@ -75,8 +80,7 @@ class MainActivity : AppCompatActivity() {
         panelRecyclerView = binding.rvPanel
         val panelItemAdapter = PanelItemAdapter()
         with(panelItemAdapter) {
-////////////////////////////////////////////////////////////////////////////////////////////
-            val callback = object : ItemTouchHelper.SimpleCallback(
+            callback = object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
@@ -85,19 +89,34 @@ class MainActivity : AppCompatActivity() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val adapter = recyclerView.adapter as PanelItemAdapter
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
                     log("$fromPos $toPos")
-                    // viewModel.moveItem(fromPos, toPos)
-                    log("${adapter.currentList}")
-                    adapter.notifyItemMoved(fromPos, toPos)
+                    viewModel.moveItem(fromPos, toPos)
+                    log("$currentList")
+                    notifyItemMoved(fromPos, toPos)
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val item = panelItemAdapter.currentList[viewHolder.adapterPosition]
+                    val item = currentList[viewHolder.adapterPosition]
                     viewModel.deleteItem(item)
+                }
+
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    var dragFlags = 0
+                    var swipeFlags = 0
+                    if (isDragMode) {
+                        dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                        swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                    } else {
+                        dragFlags = 0
+                        swipeFlags = 0
+                    }
+                    return makeMovementFlags(dragFlags, swipeFlags)
                 }
             }
             val itemTouchHelper = ItemTouchHelper(callback)
@@ -108,7 +127,8 @@ class MainActivity : AppCompatActivity() {
             }
             onDetailsClickListener = {
                 log("$it")
-//                it.isExpanded = !it.isExpanded
+                val item = viewModel.itemsList.value!!.get(it)
+                item.isExpanded = !item.isExpanded
             }
             onSliderTouchListener = {
                 viewModel.changeItem(it)

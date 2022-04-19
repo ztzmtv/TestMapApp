@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mapapp.R
 import com.example.mapapp.domain.Repository
 import com.example.mapapp.domain.entity.Item
+import java.util.*
 
 object RepositoryImpl : Repository {
     private var autoIncrementId = 0
@@ -65,10 +66,16 @@ object RepositoryImpl : Repository {
     }
 
     override fun moveItem(from: Int, to: Int) {
-        val item = panelItemsList[from]
-        panelItemsList.removeAt(from)
-        panelItemsList.add(to, item)
-        updateList()
+        if (from < to) {
+            for (i in from until to) {
+                Collections.swap(panelItemsList, i, i + 1)
+            }
+        } else {
+            for (i in from downTo to + 1) {
+                Collections.swap(panelItemsList, i, i - 1)
+            }
+        }
+        Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
     override fun deleteItem(item: Item) {
