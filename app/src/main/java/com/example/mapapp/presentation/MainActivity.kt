@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var panelRecyclerView: RecyclerView
     private var isDragMode = true
-    private lateinit var callback: ItemTouchHelper.SimpleCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         panelRecyclerView = binding.rvPanel
         val panelItemAdapter = PanelItemAdapter()
         with(panelItemAdapter) {
-            callback = object : ItemTouchHelper.SimpleCallback(
+            val callback = object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
@@ -107,8 +106,8 @@ class MainActivity : AppCompatActivity() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ): Int {
-                    var dragFlags = 0
-                    var swipeFlags = 0
+                    val dragFlags: Int
+                    val swipeFlags: Int
                     if (isDragMode) {
                         dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
                         swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
