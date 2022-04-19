@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
             includeLayout.btnDragItem.setOnClickListener {
                 isDragMode = !isDragMode
+                viewModel.getSortedList(isDragMode)
             }
         }
     }
@@ -135,6 +136,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         panelRecyclerView.adapter = panelItemAdapter
+
         viewModel.itemsList.observe(this) { itemsList ->
             panelItemAdapter.submitList(itemsList.toMutableList())
             setBottomSwitchValue(itemsList)

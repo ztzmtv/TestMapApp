@@ -27,7 +27,7 @@
         </item>
     </style>
 
-    <style name="TextLabel">
+    <style name="TextLabel" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>

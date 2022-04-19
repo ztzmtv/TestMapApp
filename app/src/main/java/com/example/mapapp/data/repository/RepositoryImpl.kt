@@ -3,6 +3,7 @@ package com.example.mapapp.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.example.mapapp.R
 import com.example.mapapp.domain.Repository
 import com.example.mapapp.domain.entity.Item
@@ -22,6 +23,13 @@ object RepositoryImpl : Repository {
     override fun getItemsList(): LiveData<List<Item>> {
         return panelItemsListLiveData
     }
+
+    override fun getSortedItemsList(): LiveData<List<Item>> {
+        return Transformations.map(panelItemsListLiveData) { list ->
+            list.sortedByDescending { item -> item.group }
+        }
+    }
+
 
     override fun changeItem(item: Item) {
         val index = getItemIndex(item)

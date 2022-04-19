@@ -15,11 +15,7 @@ class MapAppViewModel : ViewModel() {
     private val filterItemsUseCase = FilterItemsUseCase(repository)
     private val deleteLastItemUseCase = DeleteLastItemUseCase(repository)
 
-    val itemsList = getItemsListUseCase.invoke()
-
-    fun moveItem(from: Int, to: Int) {
-        repository.moveItem(from, to)
-    }
+    var itemsList = getItemsListUseCase.invoke()
 
     fun changeItem(item: Item) {
         changeItemUseCase(item)
@@ -37,11 +33,24 @@ class MapAppViewModel : ViewModel() {
         repository.deleteItem(item)
     }
 
-
     fun addDefaultItem() {
         addItemUseCase(repository.getDefaultItem())
         log("addDefaultItem()")
     }
+
+    //TODO("create usecass")
+    fun moveItem(from: Int, to: Int) {
+        repository.moveItem(from, to)
+    }
+
+    fun getSortedList(isSorted: Boolean) {
+        itemsList = if (isSorted) {
+            repository.getSortedItemsList()
+        } else {
+            repository.getItemsList()
+        }
+    }
+
 
     companion object {
         private const val TAG = "MapAppViewModel_TAG"

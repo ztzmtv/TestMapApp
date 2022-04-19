@@ -7,6 +7,8 @@ interface Repository {
 
     fun getItemsList(): LiveData<List<Item>>
 
+    fun getSortedItemsList(): LiveData<List<Item>>
+
     fun changeItem(item: Item)
 
     fun setItemOpacity(item: Item, value: Boolean)
