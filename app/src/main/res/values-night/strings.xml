@@ -7,4 +7,6 @@
     <string name="string_zoom_range">Зум: 16-18</string>
     <string name="string_opacity">Прозрачность: %s</string>
     <string name="string_synchronized_at">Синхр.: %s</string>
+    <string name="content_description_add_item">Add item</string>
+    <string name="string_panel_image">Panel Image</string>
 </resources>

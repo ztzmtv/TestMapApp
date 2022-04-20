@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:layout_marginLeft="-64dp"
+        android:background="@color/primaryColor"
         android:paddingTop="24dp">
 
         <LinearLayout
@@ -35,25 +36,36 @@
                 android:background="@color/white"
                 android:orientation="horizontal" />
 
-            <ScrollView
-                android:id="@+id/scroll_view"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_find_panel"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusBottomEnd="1dp"
+                app:boxCornerRadiusBottomStart="1dp"
+                android:visibility="gone"
+                app:boxCornerRadiusTopEnd="1dp"
+                app:boxCornerRadiusTopStart="1dp"
+                app:boxStrokeColor="@color/primaryTextColor">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_find_text"
+                    android:layout_width="match_parent"
+                    android:theme="@style/TextLabel"
+                    tools:text="sdjfskdjf"
+                    android:lineSpacingExtra="4sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="26dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab_layout">
+                android:layout_marginBottom="70dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <LinearLayout
-                    android:id="@+id/ll_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/primaryColor"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
         <include
