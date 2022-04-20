@@ -58,7 +58,7 @@ object RepositoryImpl : Repository {
     override fun filterItems(string: String) {
         if (string.isNotEmpty()) {
             panelItemsListLiveData.value = panelItemsList.filter {
-                it.text?.contains(string) ?: false
+                it.text?.contains(string, true) ?: false
             }
         } else {
             updateList()

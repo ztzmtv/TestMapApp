@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 app:boxCornerRadiusBottomEnd="1dp"
                 app:boxCornerRadiusBottomStart="1dp"
+                android:visibility="gone"
                 app:boxCornerRadiusTopEnd="1dp"
                 app:boxCornerRadiusTopStart="1dp"
                 app:boxStrokeColor="@color/primaryTextColor">
