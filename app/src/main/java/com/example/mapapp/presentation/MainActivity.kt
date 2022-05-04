@@ -126,9 +126,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeItem(it)
             }
             onDetailsClickListener = {
-                log("$it")
-                val item = viewModel.itemsList.value!!.get(it)
-                item.isExpanded = !item.isExpanded
+
             }
             onSliderTouchListener = {
                 viewModel.changeItem(it)

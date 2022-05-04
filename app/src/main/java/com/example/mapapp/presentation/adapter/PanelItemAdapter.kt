@@ -20,7 +20,7 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
 
     override fun getItemId(position: Int): Long {
         log("position $position id ${currentList[position].id.toLong()}")
-        return  currentList[position].id.toLong()
+        return currentList[position].id.toLong()
 
     }
 
@@ -63,6 +63,7 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
             tvSynchronizedAt.text = String.format(textSynchronized, getCurrentDate())
             tvCountOfElements.text = String.format(textCountOfElements, "34")
             for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
+
             panelSlider.addOnSliderTouchListener(
                 PanelSliderTouchListener {
                     item.opacity = it.value
@@ -80,8 +81,8 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
                 onSwitchChangeListener?.invoke(item)
                 swPanelItem.isChecked = item.isChecked
                 ivEye.visibility = setVisibility(!item.isChecked)
-                val opacity = setHalfOpacity(item.isChecked)
-                for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacity
+                val opacityAlpha = setHalfOpacity(item.isChecked)
+                for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacityAlpha
             }
             tvPanelItem.setOnClickListener {
                 onDetailsClickListener?.invoke(holder.adapterPosition)
@@ -89,7 +90,9 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
             }
             ivArrowPopup.setOnClickListener {
                 onDetailsClickListener?.invoke(holder.adapterPosition)
-                notifyItemChanged(position)
+                val invisibleView = holder.binding.clInvisiblePart
+                invisibleView.visibility = setVisibility(!getVisibility(invisibleView))
+                //notifyItemChanged(position)
             }
 
         }
@@ -98,6 +101,10 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
     private fun getCurrentDate(): String? {
         val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         return sdf.format(Date())
+    }
+
+    private fun getVisibility(view: View): Boolean {
+        return view.visibility == View.VISIBLE
     }
 
     private fun setVisibility(isTrue: Boolean) = if (isTrue) {
