@@ -79,7 +79,6 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
             swPanelItem.setOnCheckedChangeListener { _, isSwitchChecked ->
                 item.isChecked = isSwitchChecked
                 onSwitchChangeListener?.invoke(item)
-                swPanelItem.isChecked = item.isChecked
                 ivEye.visibility = setVisibility(!item.isChecked)
                 val opacityAlpha = setHalfOpacity(item.isChecked)
                 for (i in 0 until root.childCount) root.getChildAt(i).alpha = opacityAlpha

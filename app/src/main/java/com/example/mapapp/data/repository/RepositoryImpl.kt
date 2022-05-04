@@ -36,7 +36,6 @@ object RepositoryImpl : Repository {
         index?.let {
             panelItemsList.set(it, item)
         }
-        updateList()
         Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
