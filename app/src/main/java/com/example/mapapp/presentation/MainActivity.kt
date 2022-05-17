@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var panelRecyclerView: RecyclerView
+    private val panelItemAdapter by lazy { PanelItemAdapter() }
     private var isDragMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         panelRecyclerView = binding.rvPanel
-        val panelItemAdapter = PanelItemAdapter()
         with(panelItemAdapter) {
             val callback = object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -93,8 +93,8 @@ class MainActivity : AppCompatActivity() {
                     val toPos = target.adapterPosition
                     log("$fromPos $toPos")
                     viewModel.moveItem(fromPos, toPos)
-                    log("$currentList")
                     notifyItemMoved(fromPos, toPos)
+                    log("$currentList")
                     return true
                 }
 
@@ -136,7 +136,8 @@ class MainActivity : AppCompatActivity() {
         panelRecyclerView.adapter = panelItemAdapter
 
         viewModel.itemsList.observe(this) { itemsList ->
-            panelItemAdapter.submitList(itemsList.toMutableList())
+            panelItemAdapter.submitList(null)
+            panelItemAdapter.submitList(itemsList.toList())
             setBottomSwitchValue(itemsList)
         }
     }

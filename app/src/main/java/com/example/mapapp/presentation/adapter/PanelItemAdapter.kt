@@ -18,11 +18,11 @@ class PanelItemAdapter : ListAdapter<Item, PanelItemViewHolder>(PanelItemDiffCal
     var onSwitchChangeListener: ((item: Item) -> Unit)? = null
     var onSliderTouchListener: ((item: Item) -> Unit)? = null
 
-    override fun getItemId(position: Int): Long {
-        log("position $position id ${currentList[position].id.toLong()}")
-        return currentList[position].id.toLong()
-
-    }
+//    override fun getItemId(position: Int): Long {
+//        log("position $position id ${currentList[position].id.toLong()}")
+//        return currentList[position].id.toLong()
+//
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PanelItemViewHolder {
         val view = PanelItemBinding.inflate(

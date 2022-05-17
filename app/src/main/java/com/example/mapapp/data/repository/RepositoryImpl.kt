@@ -73,15 +73,12 @@ object RepositoryImpl : Repository {
     }
 
     override fun moveItem(from: Int, to: Int) {
-        if (from < to) {
-            for (i in from until to) {
+        if (from < to)
+            for (i in from until to)
                 Collections.swap(panelItemsList, i, i + 1)
-            }
-        } else {
-            for (i in from downTo to + 1) {
+        else
+            for (i in from downTo to + 1)
                 Collections.swap(panelItemsList, i, i - 1)
-            }
-        }
         Log.d("RepositoryImpl_TAG", "$panelItemsList")
     }
 
@@ -96,7 +93,7 @@ object RepositoryImpl : Repository {
 
     private fun updateList() {
         panelItemsListLiveData.value = panelItemsList.toList()
-        Log.d("RepositoryImpl_TAG", "updateList")
+        Log.d("RepositoryImpl_TAG", "updateList ${panelItemsListLiveData.value}")
     }
 
     private fun getTemplateList(): MutableList<Item> {
