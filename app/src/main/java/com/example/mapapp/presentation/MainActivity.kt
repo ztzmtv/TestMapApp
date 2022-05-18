@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var panelRecyclerView: RecyclerView
     private val panelItemAdapter by lazy { PanelItemAdapter() }
     private var isDragMode = true
+    private var isFindMode = false
     //private val mapper by lazy { Mapper() }
     //private lateinit var fastAdapter: FastAdapter<BindingPanelItem>
 
@@ -67,11 +68,17 @@ class MainActivity : AppCompatActivity() {
                 panelItemAdapter.notifyItemInserted(panelItemAdapter.currentList.size)
             }
             includeLayout.btnFindItem.setOnClickListener {
+                isFindMode = !isFindMode
                 if (tilFindPanel.visibility == View.GONE) {
                     tilFindPanel.visibility = View.VISIBLE
+                    viewModel.itemsListLiveData.observe(this@MainActivity) {
+                        panelItemAdapter.submitList(it)
+                    }
                 } else {
                     tilFindPanel.visibility = View.GONE
+                    panelItemAdapter.submitList(viewModel.itemsList)
                 }
+
             }
             includeLayout.btnDelete.setOnClickListener {
                 viewModel.deleteLastItem()
@@ -149,8 +156,7 @@ class MainActivity : AppCompatActivity() {
 //        val itemAdapter = ItemAdapter<BindingPanelItem>()
 //        fastAdapter = FastAdapter.with(itemAdapter)
 //        panelRecyclerView.adapter = fastAdapter
-        //panelRecyclerView.adapter = panelItemAdapter
-
+//        panelRecyclerView.adapter = panelItemAdapter
 //        viewModel.itemsListLiveData.observe(this) {
 //            val list = mapper.mapItemToBindingPanelItem(it)
 //            itemAdapter.set(list)
