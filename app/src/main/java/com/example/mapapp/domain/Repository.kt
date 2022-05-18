@@ -5,9 +5,11 @@ import com.example.mapapp.domain.entity.Item
 
 interface Repository {
 
-    fun getItemsList(): LiveData<List<Item>>
+    fun getCurrentList(): List<Item>
 
-    fun getSortedItemsList(): LiveData<List<Item>>
+    fun getItemsListLiveData(): LiveData<List<Item>>
+
+    fun getSortedItemsListLiveData(): LiveData<List<Item>>
 
     fun changeItem(item: Item)
 

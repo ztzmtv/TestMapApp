@@ -19,17 +19,19 @@ object RepositoryImpl : Repository {
         updateList()
     }
 
+    override fun getCurrentList(): List<Item> {
+        return panelItemsList
+    }
 
-    override fun getItemsList(): LiveData<List<Item>> {
+    override fun getItemsListLiveData(): LiveData<List<Item>> {
         return panelItemsListLiveData
     }
 
-    override fun getSortedItemsList(): LiveData<List<Item>> {
+    override fun getSortedItemsListLiveData(): LiveData<List<Item>> {
         return Transformations.map(panelItemsListLiveData) { list ->
             list.sortedByDescending { item -> item.group }
         }
     }
-
 
     override fun changeItem(item: Item) {
         val index = getItemIndex(item)
@@ -50,7 +52,7 @@ object RepositoryImpl : Repository {
             item.id = autoIncrementId++
         }
         panelItemsList.add(item)
-        updateList()
+        //updateList()
         Log.d("RepositoryImpl_TAG", "$this")
     }
 
@@ -63,7 +65,6 @@ object RepositoryImpl : Repository {
             updateList()
         }
     }
-
 
     override fun deleteLastItem() {
         if (panelItemsList.isNotEmpty()) {

@@ -11,11 +11,13 @@ class MapAppViewModel : ViewModel() {
     private val addItemUseCase = AddItemUseCase(repository)
     private val changeItemUseCase = ChangeItemUseCase(repository)
     private val setItemOpacityUseCase = SetItemOpacityUseCase(repository)
-    private val getItemsListUseCase = GetItemsListUseCase(repository)
+    private val getItemsListLiveDataUseCase = GetItemsListLiveDataUseCase(repository)
     private val filterItemsUseCase = FilterItemsUseCase(repository)
     private val deleteLastItemUseCase = DeleteLastItemUseCase(repository)
+    private val getItemsListUseCase = GetItemsListUseCase(repository)
 
-    var itemsList = getItemsListUseCase.invoke()
+    var itemsListLiveData = getItemsListLiveDataUseCase.invoke()
+    val itemsList = getItemsListUseCase.invoke()
 
     fun changeItem(item: Item) {
         changeItemUseCase(item)
@@ -44,10 +46,10 @@ class MapAppViewModel : ViewModel() {
     }
 
     fun getSortedList(isSorted: Boolean) {
-        itemsList = if (isSorted) {
-            repository.getSortedItemsList()
+        itemsListLiveData = if (isSorted) {
+            repository.getSortedItemsListLiveData()
         } else {
-            repository.getItemsList()
+            repository.getItemsListLiveData()
         }
     }
 

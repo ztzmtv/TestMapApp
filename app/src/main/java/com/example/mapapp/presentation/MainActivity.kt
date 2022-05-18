@@ -15,7 +15,10 @@ import com.example.mapapp.R
 import com.example.mapapp.databinding.ActivityMainBinding
 import com.example.mapapp.domain.entity.Item
 import com.example.mapapp.helper.AppTextWatcher
+import com.example.mapapp.helper.Mapper
+import com.example.mapapp.presentation.adapter.BindingPanelItem
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
+import com.mikepenz.fastadapter.FastAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var panelRecyclerView: RecyclerView
     private val panelItemAdapter by lazy { PanelItemAdapter() }
     private var isDragMode = true
+    //private val mapper by lazy { Mapper() }
+    //private lateinit var fastAdapter: FastAdapter<BindingPanelItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             includeLayout.btnAddItem.setOnClickListener {
                 viewModel.addDefaultItem()
+                panelItemAdapter.notifyItemInserted(panelItemAdapter.currentList.size)
             }
             includeLayout.btnFindItem.setOnClickListener {
                 if (tilFindPanel.visibility == View.GONE) {
@@ -69,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
             includeLayout.btnDelete.setOnClickListener {
                 viewModel.deleteLastItem()
+                panelItemAdapter.notifyItemRemoved(panelItemAdapter.currentList.size)
             }
             includeLayout.btnDragItem.setOnClickListener {
                 isDragMode = !isDragMode
@@ -89,8 +96,8 @@ class MainActivity : AppCompatActivity() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
+                    val fromPos = viewHolder.absoluteAdapterPosition
+                    val toPos = target.absoluteAdapterPosition
                     log("$fromPos $toPos")
                     viewModel.moveItem(fromPos, toPos)
                     notifyItemMoved(fromPos, toPos)
@@ -99,8 +106,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val item = currentList[viewHolder.adapterPosition]
+                    val item = currentList[viewHolder.absoluteAdapterPosition]
                     viewModel.deleteItem(item)
+                    notifyItemRemoved(viewHolder.absoluteAdapterPosition)
                 }
 
                 override fun getMovementFlags(
@@ -132,14 +140,26 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeItem(it)
             }
         }
-
         panelRecyclerView.adapter = panelItemAdapter
 
-        viewModel.itemsList.observe(this) { itemsList ->
-            panelItemAdapter.submitList(null)
-            panelItemAdapter.submitList(itemsList.toList())
-            setBottomSwitchValue(itemsList)
-        }
+        panelItemAdapter.submitList(
+            viewModel.itemsList
+        )
+
+//        val itemAdapter = ItemAdapter<BindingPanelItem>()
+//        fastAdapter = FastAdapter.with(itemAdapter)
+//        panelRecyclerView.adapter = fastAdapter
+        //panelRecyclerView.adapter = panelItemAdapter
+
+//        viewModel.itemsListLiveData.observe(this) {
+//            val list = mapper.mapItemToBindingPanelItem(it)
+//            itemAdapter.set(list)
+//            FastAdapterDiffUtil[itemAdapter] = list
+//            panelItemAdapter.submitList(null)
+//            panelItemAdapter.submitList(itemsList.toList())
+//            setBottomSwitchValue(itemsList)
+
+//        }
     }
 
     private fun setBottomSwitchValue(itemsList: List<Item>) {
