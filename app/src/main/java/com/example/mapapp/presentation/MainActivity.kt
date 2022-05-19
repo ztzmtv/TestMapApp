@@ -18,6 +18,8 @@ import com.example.mapapp.helper.AppTextWatcher
 import com.example.mapapp.helper.Mapper
 import com.example.mapapp.presentation.adapter.BindingPanelItem
 import com.example.mapapp.presentation.adapter.PanelItemAdapter
+import com.mapbox.maps.MapView
+import com.mapbox.maps.Style
 import com.mikepenz.fastadapter.FastAdapter
 
 
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val panelItemAdapter by lazy { PanelItemAdapter() }
     private var isDragMode = true
     private var isFindMode = false
+    private var mapView: MapView? = null
     //private val mapper by lazy { Mapper() }
     //private lateinit var fastAdapter: FastAdapter<BindingPanelItem>
 
@@ -43,7 +46,11 @@ class MainActivity : AppCompatActivity() {
         setFabClickListener()
         setEtFindTextListener()
 
+        mapView = binding.mapView
+        mapView?.getMapboxMap()?.loadStyleUri(Style.MAPBOX_STREETS)
+
     }
+
 
     private fun setEtFindTextListener() {
         binding.etFindText.addTextChangedListener(
